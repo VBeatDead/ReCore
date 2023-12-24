@@ -178,11 +178,11 @@
     .desktop .text-wrapper-4 {
         position: absolute;
         top: 35px;
-        left: 30px;
+        left: 32px;
         font-family: "Poppins", Helvetica;
         font-weight: 600;
-        color: #ebf9ff;
-        font-size: 30px;
+        background-color: transparent;
+        font-size: 24px;
         text-align: center;
         letter-spacing: 0;
         line-height: normal;
@@ -195,8 +195,8 @@
         left: 137px;
         font-family: "Poppins", Helvetica;
         font-weight: 600;
-        color: #ebf9ff;
-        font-size: 30px;
+        background-color: transparent;
+        font-size: 24px;
         text-align: center;
         letter-spacing: 0;
         line-height: normal;
@@ -208,8 +208,8 @@
         left: 242px;
         font-family: "Poppins", Helvetica;
         font-weight: 600;
-        color: #ebf9ff;
-        font-size: 30px;
+        background-color: transparent;
+        font-size: 24px;
         text-align: center;
         letter-spacing: 0;
         line-height: normal;
@@ -219,7 +219,7 @@
         position: absolute;
         top: 20px;
         left: 552px;
-        font-family: "Salsa", Helvetica;
+        font-family: "Poppins", Helvetica;
         font-weight: 400;
         color: #ebf9ff;
         font-size: 60px;
@@ -602,10 +602,19 @@
 <body>
     <div class="desktop">
         <div class="div">
+            <div class="top-navbar">
+                <div class="overlap">
+                    <img class="icon-profile-circle" src="img/icon-profile-circle.png" />
+                    <button class="text-wrapper-4">Home</button>
+                    <button class="text-wrapper-5">News</button>
+                    <button class="text-wrapper-6">About</button>
+                    <div class="text-wrapper-7">GAME NEWS</div>
+                </div>
+            </div>
             <div class="tools">
                 <div class="text-wrapper">Trending</div>
                 <div class="viral">
-                    <p class="text-wrapper-2">Apip suka kontol udah sih</p>
+                    <div class="text-wrapper-2">Apip suka kontol udah sih</div>
                     <img class="line" src="img/line-1-2.svg" />
                     <div class="text-wrapper-3">E.</div>
                 </div>
@@ -630,15 +639,6 @@
                     <div class="text-wrapper-2">Apip suka kontol</div>
                     <img class="line-3" src="img/line-1-4.svg" />
                     <div class="text-wrapper-3">A.</div>
-                </div>
-            </div>
-            <div class="top-navbar">
-                <div class="overlap">
-                    <img class="icon-profile-circle" src="img/icon-profile-circle.png" />
-                    <div class="text-wrapper-4">Home</div>
-                    <div class="text-wrapper-5">News</div>
-                    <div class="text-wrapper-6">About</div>
-                    <div class="text-wrapper-7">GAME NEWS</div>
                 </div>
             </div>
             <div class="list-item-wrapper">
