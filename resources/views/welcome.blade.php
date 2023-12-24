@@ -183,6 +183,7 @@
         font-weight: 600;
         background-color: transparent;
         color: white;
+        border: none;
         font-size: 24px;
         text-align: center;
         letter-spacing: 0;
@@ -198,6 +199,7 @@
         font-weight: 600;
         background-color: transparent;
         color: white;
+        border: none;
         font-size: 24px;
         text-align: center;
         letter-spacing: 0;
@@ -212,6 +214,7 @@
         font-weight: 600;
         background-color: transparent;
         color: white;
+        border: none;
         font-size: 24px;
         text-align: center;
         letter-spacing: 0;
