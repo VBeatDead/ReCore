@@ -28,7 +28,6 @@ class ItemController extends Controller
         $item->description = $request->description;
         $item->name = $request->name;
 
-        // Handle photoUrl update if a new image is uploaded
         if ($request->hasFile('photoUrl')) {
             $imagePath = $request->file('photoUrl')->path();
             $item->photoUrl = base64_encode(file_get_contents($imagePath));
@@ -36,6 +35,6 @@ class ItemController extends Controller
 
         $item->save();
 
-        return redirect()->route('admin')->with('success', 'News updated successfully.');
+        return redirect()->route('item.home')->with('success', 'News updated successfully.');
     }
 }

@@ -139,7 +139,7 @@
             @foreach($data->take(3)->shuffle() as $index => $item)
             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                 <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
-                <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                     <div class="desc carousel-caption d-none d-md-block">
                         <h5>{{ $item->title }}</h5>
                         @php
@@ -172,13 +172,13 @@
             @foreach($data as $index => $item)
             @if($index < 7) <div class="row g-0" style="margin-bottom: 30px;">
                 <div class="col-md-4">
-                    <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                             <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
                             <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
                             <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
@@ -198,7 +198,7 @@
         <div class="itempopular" style="width: 18rem;">
             <ul class="list-item">
                 @foreach($data->reverse() as $index => $item)
-                <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                     <li class="list-group-item">{{ $item->title }}</li>
                 </a>
                 @endforeach

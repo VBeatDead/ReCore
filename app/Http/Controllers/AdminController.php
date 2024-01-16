@@ -10,6 +10,12 @@ class AdminController extends Controller
     function index()
     {
         $data=personal::all();
+        return view('welcome',compact('data'));
+    }
+
+    function admin()
+    {
+        $data=personal::all();
         return view('admin',compact('data'));
     }
 

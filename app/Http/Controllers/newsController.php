@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\personal;
+use Illuminate\Support\Facades\Auth;
 
 class newsController extends Controller
 {
@@ -28,9 +29,14 @@ class newsController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'name' => 'required|max:255',
             'photoUrl' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please log in to add news.');
+        }
 
         $imagePath = $request->file('photoUrl')->path();
         $encodedImage = base64_decode(file_get_contents($imagePath));
@@ -38,12 +44,12 @@ class newsController extends Controller
         $personal = new Personal;
         $personal->title = $request->title;
         $personal->description = $request->description;
-        $personal->name = $request->name;
+        $personal->name = "By " . $user->name;
         $encodedImage = base64_encode(file_get_contents($request->file('photoUrl')->getRealPath()));
         $personal->photoUrl = $encodedImage;
         $personal->save();
 
-        return redirect()->route('admin')->with('success', 'News added successfully.');
+        return redirect()->route('item.home')->with('success', 'News added successfully.');
     }
 
     public function destroy($id)
@@ -51,6 +57,6 @@ class newsController extends Controller
         $item = personal::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('admin')->with('success', 'Item deleted successfully.');
+        return redirect()->route('item.home')->with('success', 'Item deleted successfully.');
     }
 }

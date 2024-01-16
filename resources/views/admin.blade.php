@@ -141,13 +141,13 @@
             @foreach($data->reverse() as $index => $item)
             <div class="row g-0" style="margin-bottom: 30px;">
                 <div class="col-md-4">
-                    <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
                     </a>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <a href="{{ route('item.detail', ['id' => $item->id]) }}">
+                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                             <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
                         </a>
                         <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>

@@ -164,7 +164,9 @@
                 <input type="file" class="form-control" id="photoUrl" name="photoUrl">
             </div>
 
-            <button type="submit" class="btn btn-primary">Update News</button>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Update News</button>
+            </div>
         </form>
     </div>
     </div>

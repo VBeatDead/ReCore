@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\newsController;
@@ -10,7 +11,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SesiController;
 
 Route::middleware(['auth'])->group(function () {
-    route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
+    route::get('/', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
+    route::get('/admin', [AdminController::class, 'admin'])->name('setting')->middleware('userAkses:admin');
 
     Route::get('/item/{id}/edit', [ItemController::class, 'edit'])->name('item.edit')->middleware('userAkses:admin');
     Route::put('/item/{id}', [ItemController::class, 'update'])->name('item.update')->middleware('userAkses:admin');
@@ -22,10 +24,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
 
     route::get('/', [AdminController::class, 'user'])->name('user')->middleware('userAkses:user');
+
+    Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
 });
 
 route::get('/', [newsController::class, 'show'])->name('item.home');
 route::get('/about', [AboutController::class, 'show'])->name('item.about');
 route::get('/contact', [ContactController::class, 'show'])->name('item.contact');
 route::post('/', [SesiController::class, 'login'])->name('login');
-Route::get('/{id}', [detailController::class, 'show'])->name('item.detail');
+route::post('/regis', [SesiController::class, 'register'])->name('register');
+Route::get('/{id}/{title}', [detailController::class, 'show'])->name('item.detail');
