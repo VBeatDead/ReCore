@@ -17,4 +17,9 @@ class personal extends Model
         'description',
         'name',
     ];
+
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class);
+    // }
 }

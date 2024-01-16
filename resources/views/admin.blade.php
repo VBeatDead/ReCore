@@ -67,11 +67,13 @@
         }
 
         .sidelist {
-            padding: 80px;
+            padding-left: 80px;
+            padding-right: 80px;
+            padding-bottom: 80px;
+            padding-top: -3%;
         }
 
         .listitem {
-            height: auto;
             padding: 40px;
             align-items: center;
             justify-content: center;
@@ -121,7 +123,9 @@
         }
 
         .add {
-            padding-left: 4%;
+            justify-content: center;
+            text-align: center;
+            padding: 3%;
         }
     </style>
 
@@ -129,48 +133,13 @@
 </head>
 
 <body>
-    <div id="carouselExampleCaptions" class="carousel slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="sizeslide carousel-inner">
-            @foreach($data->take(3)->shuffle() as $index => $item)
-            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
-                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                    <div class="desc carousel-caption d-none d-md-block">
-                        <h5>{{ $item->title }}</h5>
-                        @php
-                        $descriptionWords = explode(' ', $item->description);
-                        $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
-
-                        // Check if there are more words in the description
-                        if (count($descriptionWords) > 10) {
-                        $limitedDescription .= ' .....';
-                        }
-                        @endphp
-                        <p>{{ $limitedDescription }}</p>
-                    </div>
-                </a>
-            </div>
-            @endforeach
-
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+    <div class="add">
+        <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
     </div>
     <div class="sidelist d-flex w-100">
-        <div class="listitem col-md-9 col-xs-12">
-            @foreach($data as $index => $item)
-            @if($index < 7) <div class="row g-0" style="margin-bottom: 30px;">
+        <div class="listitem col-md-12 col-xs-12">
+            @foreach($data->reverse() as $index => $item)
+            <div class="row g-0" style="margin-bottom: 30px;">
                 <div class="col-md-4">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
@@ -180,35 +149,24 @@
                     <div class="card-body">
                         <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                             <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
-                            <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
-                            <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
-                                {{ \Illuminate\Support\Str::limit($item->description, 255) }}
-                            </p>
                         </a>
+                        <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
+                        <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
+                            {{ \Illuminate\Support\Str::limit($item->description, 255) }}
+                        </p>
+                        <div class="d-flex justify-content-end">
+                            <a href="{{ route('item.edit', ['id' => $item->id]) }}" class="btn btn-primary">Update</a>
+                            <form action="{{ route('item.delete', ['id' => $item->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger ml-2">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            </div>
+            @endforeach
         </div>
-        @else
-        @break
-        @endif
-        @endforeach
-    </div>
-    <div class="sidebar col-md-3 col-xs-12" style="margin-left: 80px;">
-        <h4 style="margin-left: 20px;">Popular</h4>
-        <div class="itempopular" style="width: 18rem;">
-            <ul class="list-item">
-                @foreach($data->reverse() as $index => $item)
-                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                    <li class="list-group-item">{{ $item->title }}</li>
-                </a>
-                @endforeach
-            </ul>
-        </div>
-        @if(Auth::check() && Auth::user()->role == 'user')
-        <div class="add">
-            <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
-        </div>
-        @endif
     </div>
     </div>
     @include('partials._footer')
