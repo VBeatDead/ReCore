@@ -10,8 +10,9 @@ class newsController extends Controller
 {
     public function show()
     {
-        $data = personal::latest()->get();
-        return view('welcome', compact('data'));
+        $data = personal::latest()->paginate(7);
+        $page = personal::all();
+        return view('welcome', compact('data', 'page'));
     }
 
     public function addNews()

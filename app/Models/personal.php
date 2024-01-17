@@ -18,8 +18,8 @@ class personal extends Model
         'name',
     ];
 
-    // public function comments()
-    // {
-    //     return $this->hasMany(Comment::class);
-    // }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'item_id');
+    }
 }

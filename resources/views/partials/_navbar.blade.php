@@ -28,11 +28,11 @@
                 <img class="rectangle" src="{{ asset('img/icon-profile-circle.png') }}" width="35px" data-bs-toggle="modal" data-bs-target="#loginModal" style="margin-right: 8px;" />
             </div>
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="container py-5">
-                            <div class="w-100 center border rounded px-3 py-3 mx-auto">
-                                <h1 style="color: #000000;">Login</h1>
+                            <div class="w-100 center border rounded p-4 mx-auto" style="background-color: #f8f9fa;">
+                                <h1 class="text-center mb-4" style="color: #3498db;">Login</h1>
                                 @if($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -45,19 +45,19 @@
                                 <form action="{{ route('login') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="email" class="form-label" style="color: #000000;">Email</label>
-                                        <input type="email" value="{{ old('email') }}" name="email" class="form-control">
+                                        <label for="email" class="form-label" style="color: #495057;">Email</label>
+                                        <input type="email" value="{{ old('email') }}" name="email" class="form-control" placeholder="Your Email">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label" style="color: #000000;">Password</label>
-                                        <input type="password" name="password" class="form-control">
+                                        <label for="password" class="form-label" style="color: #495057;">Password</label>
+                                        <input type="password" name="password" class="form-control" placeholder="Your Password">
                                     </div>
                                     <div class="mb-3 d-grid">
-                                        <button name="submit" type="submit" class="btn btn-primary">Login</button>
+                                        <button name="submit" type="submit" class="btn btn-primary btn-block" style="background-color: #3498db;">Login</button>
                                     </div>
                                 </form>
                                 <div class="text-center">
-                                    <p style="color: #000000;">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" style="color: blue;">Register</a></p>
+                                    <p style="color: #495057;">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" style="color: #3498db; text-decoration: underline;">Register</a></p>
                                 </div>
                             </div>
                         </div>
@@ -68,32 +68,32 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="container py-5">
-                            <div class="w-100 center border rounded px-3 py-3 mx-auto">
-                                <h1 style="color: #000000;">Register</h1>
+                            <div class="w-100 center border rounded px-4 py-4 mx-auto">
+                                <h1 class="text-center mb-4" style="color: #3498db;">Register</h1>
                                 <form action="{{ route('register') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="name" class="form-label" style="color: #000000;">Name</label>
+                                        <label for="name" class="form-label" style="color: #495057;">Name</label>
                                         <input type="text" value="{{ old('name') }}" name="name" class="form-control" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="email" class="form-label" style="color: #000000;">Email</label>
+                                        <label for="email" class="form-label" style="color: #495057;">Email</label>
                                         <input type="email" value="{{ old('email') }}" name="email" class="form-control" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password" class="form-label" style="color: #000000;">Password</label>
+                                        <label for="password" class="form-label" style="color: #495057;">Password</label>
                                         <input type="password" name="password" class="form-control" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="password_confirmation" class="form-label" style="color: #000000;">Confirm Password</label>
+                                        <label for="password_confirmation" class="form-label" style="color: #495057;">Confirm Password</label>
                                         <input type="password" name="password_confirmation" class="form-control" required>
                                     </div>
                                     <div class="mb-3 d-grid">
-                                        <button name="submit" type="submit" class="btn btn-primary">Register</button>
+                                        <button name="submit" type="submit" class="btn btn-primary btn-block" style="background-color: #3498db;">Register</button>
                                     </div>
                                 </form>
                                 <div class="text-center">
-                                    <p style="color: #000000;">Already have an account? <a href="{{ route('login') }}" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" style="color: blue;">Login</a></p>
+                                    <p style="color: #495057;">Already have an account? <a href="{{ route('login') }}" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" style="color: #3498db; text-decoration: underline;">Login</a></p>
                                 </div>
                             </div>
                         </div>

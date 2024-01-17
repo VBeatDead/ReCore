@@ -4,23 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Personal;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate([
-            'item_id' => 'required|exists:items,id',
-            'content' => 'required',
-        ]);
+        if (Auth::check()) {
+            Comment::create([
+                'user_id' => Auth::user()->id,
+                'item_id' => $request->item_id,
+                'content' => $request->content,
+            ]);
 
-        Comment::create([
-            'item_id' => $request->item_id,
-            'user_id' => Auth::id(),
-            'content' => $request->content,
-        ]);
+            return redirect()->back()->with('success', 'Comment added successfully.');
+        } else {
+            return redirect()->route('login')->with('error', 'Please login to leave a comment.');
+        }
+    }
 
-        return redirect()->back()->with('success', 'Comment added successfully.');
+    public function showComments($itemId)
+    {
+        $comments = Comment::latest()->get();
+        return view('comments.show', compact('comments'));
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+// Comment.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,15 +11,15 @@ class Comment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['newsgame_id', 'user_id', 'content'];
+    protected $fillable = ['item_id', 'user_id', 'content'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function newsgame()
+    public function personal()
     {
-        return $this->belongsTo(personal::class);
+        return $this->belongsTo(Personal::class, 'item_id');
     }
 }

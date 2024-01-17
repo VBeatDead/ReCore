@@ -7,6 +7,7 @@
     <title>Game News</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
+    <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
 
     <style>
         body {
@@ -71,7 +72,7 @@
         }
 
         .listitem {
-            height: auto;
+            height: 80%;
             padding: 40px;
             align-items: center;
             justify-content: center;
@@ -123,6 +124,49 @@
         .add {
             padding-left: 4%;
         }
+
+        .img-zoomin {
+            transition: 0.5s;
+        }
+
+        .img-zoomin:hover {
+            transform: scale(1.03);
+        }
+
+        .itempopular {
+            width: 18rem;
+        }
+
+        .list-item {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-group-item {
+            height: 50px;
+            overflow: hidden;
+            transition: height 0.5s ease;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .list-group-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .list-group-item:hover {
+            height: 150px;
+        }
+
+        .list-group-item:hover img {
+            opacity: 1;
+        }
     </style>
 
     @include('partials._navbar')
@@ -135,28 +179,37 @@
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <div class="sizeslide carousel-inner">
-            @foreach($data->take(3)->shuffle() as $index => $item)
-            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
-                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                    <div class="desc carousel-caption d-none d-md-block">
-                        <h5>{{ $item->title }}</h5>
-                        @php
-                        $descriptionWords = explode(' ', $item->description);
-                        $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
+        <div id="autoSlideCarousel" class="sizeslide carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @foreach($data->shuffle()->take(3) as $index => $item)
+                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                    <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
+                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                        <div class="desc carousel-caption d-none d-md-block">
+                            <h5>{{ $item->title }}</h5>
+                            @php
+                            $descriptionWords = explode(' ', $item->description);
+                            $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
 
-                        // Check if there are more words in the description
-                        if (count($descriptionWords) > 10) {
-                        $limitedDescription .= ' .....';
-                        }
-                        @endphp
-                        <p>{{ $limitedDescription }}</p>
-                    </div>
-                </a>
+                            // Check if there are more words in the description
+                            if (count($descriptionWords) > 10) {
+                            $limitedDescription .= ' .....';
+                            }
+                            @endphp
+                            <p>{{ $limitedDescription }}</p>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
             </div>
-            @endforeach
-
+            <button class="carousel-control-prev" type="button" data-bs-target="#autoSlideCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#autoSlideCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -170,7 +223,7 @@
     <div class="sidelist d-flex w-100">
         <div class="listitem col-md-9 col-xs-12">
             @foreach($data as $index => $item)
-            @if($index < 7) <div class="row g-0" style="margin-bottom: 30px;">
+            @if($index < 7) <div class="row g-0 img-zoomin" style="margin-bottom: 30px;">
                 <div class="col-md-4">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
@@ -192,15 +245,21 @@
         @break
         @endif
         @endforeach
+        <div class="card-footer">
+            {{ $data->links('pagination::bootstrap-4') }}
+        </div>
     </div>
     <div class="sidebar col-md-3 col-xs-12" style="margin-left: 80px;">
         <h4 style="margin-left: 20px;">Popular</h4>
-        <div class="itempopular" style="width: 18rem;">
+        <div class="itempopular">
             <ul class="list-item">
-                @foreach($data->reverse() as $index => $item)
-                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                    <li class="list-group-item">{{ $item->title }}</li>
-                </a>
+                @foreach($page->take(15) as $item)
+                <li class="list-group-item">
+                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                        {{ $item->title }}
+                        <img src="data:image/jpg;base64,{{ $item->photoUrl }}" alt="Item Image">
+                    </a>
+                </li>
                 @endforeach
             </ul>
         </div>
@@ -214,6 +273,11 @@
     @include('partials._footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
+    <script>
+        $('#autoSlideCarousel').carousel({
+            interval: 1000
+        });
+    </script>
 </body>
 
 </html>

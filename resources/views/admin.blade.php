@@ -7,6 +7,7 @@
     <title>Game News</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
+    <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
 
     <style>
         body {
@@ -127,6 +128,21 @@
             text-align: center;
             padding: 3%;
         }
+
+        .img-container {
+            overflow: hidden;
+            width: 95%;
+            margin: auto;
+        }
+
+        .img-container img {
+            width: 100%;
+            transition: transform 0.5s;
+        }
+
+        .img-container img:hover {
+            transform: scale(1.1);
+        }
     </style>
 
     @include('partials._navbar')
@@ -142,7 +158,9 @@
             <div class="row g-0" style="margin-bottom: 30px;">
                 <div class="col-md-4">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                        <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
+                        <div class="img-container">
+                            <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
+                        </div>
                     </a>
                 </div>
                 <div class="col-md-8">

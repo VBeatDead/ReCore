@@ -25,12 +25,15 @@ Route::middleware(['auth'])->group(function () {
 
     route::get('/', [AdminController::class, 'user'])->name('user')->middleware('userAkses:user');
 
-    Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 });
 
 route::get('/', [newsController::class, 'show'])->name('item.home');
+Route::get('/sidebar', [newsController::class, 'show'])->name('sidebar.show');
 route::get('/about', [AboutController::class, 'show'])->name('item.about');
 route::get('/contact', [ContactController::class, 'show'])->name('item.contact');
 route::post('/', [SesiController::class, 'login'])->name('login');
 route::post('/regis', [SesiController::class, 'register'])->name('register');
 Route::get('/{id}/{title}', [detailController::class, 'show'])->name('item.detail');
+Route::get('/random-item', [detailController::class, 'showRandomItem'])->name('random.item');
+Route::get('/comments/{itemId}', [CommentController::class, 'showComments'])->name('comments.show');

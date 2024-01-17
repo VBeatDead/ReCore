@@ -10,6 +10,9 @@ class detailController extends Controller
     public function show($id)
     {
         $item=personal::find($id);
-        return view('detail', ['item' => $item]);
+        $recentNews = personal::latest()->limit(5)->get();
+        $randomItem = personal::inRandomOrder()->first();
+
+        return view('detail', compact('item', 'recentNews', 'randomItem'));
     }
 }
