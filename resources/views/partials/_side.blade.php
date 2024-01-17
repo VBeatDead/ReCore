@@ -4,10 +4,12 @@
         <div class="row g-4 position-relative">
             <div class="col-12">
                 <div class="rounded overflow-hidden position-relative img-zoomin">
-                    <img width="100%" src="data:image/jpg;base64,{{ $randomItem->photoUrl }}" class="img-fluid" alt="img" style="width: 100%; height: 100%; object-fit: cover;">
-                    <div class="text-overlay">
-                        <h4>{{ $randomItem->title }}</h4>
-                    </div>
+                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                        <img src="data:image/jpg;base64,{{ $randomItem->photoUrl }}" class="img-fluid" alt="img" style="width: 800px; height: 250px; object-fit: cover;">
+                        <div class="text-overlay">
+                            <h4>{{ $randomItem->title }}</h4>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

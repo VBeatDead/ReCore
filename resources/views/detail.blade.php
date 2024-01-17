@@ -35,7 +35,7 @@
                 <div style="text-align: center;">
                     @if($item)
                     <div class="img-container">
-                        <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img" style="width: 60%; height: 60%; object-fit: cover;">
+                        <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img" style="width: 900px; height: 550px; object-fit: cover;">
                     </div>
                     @else
                     <p>No item found.</p>
