@@ -10,7 +10,7 @@
             <p> <img src="{{ asset('img/mail.png') }}" alt="logo-email" width="18" height="18" style="margin-right: 10px;">vallov@infgame.com</p>
         </div>
         <div class="social col-md-3 col-xs-12" style="text-align: justify;">
-            <p>Scoial Media</p>
+            <p>Social Media</p>
             <p>Ikuti jejaring sosial untuk mendapatkan informasi terbaru</p>
             <div class="d-flex">
                 <img src="{{ asset('img/instagram-1.png') }}" alt="ig" width="28" height="28" style="margin-right: 25px;">
@@ -20,6 +20,6 @@
         </div>
     </div>
     <div class="hak2 text-center p-3 col-md-12 col-xs-12">
-        Hak Cipta © 2014 - 2023. Semua hak dilindungi oleh InfoGame
+        Hak Cipta © 2023 - 2024. Semua hak dilindungi oleh InfoGame
     </div>
 </footer>

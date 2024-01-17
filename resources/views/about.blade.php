@@ -145,9 +145,10 @@
 <body>
     <div class="ab">
         <h1 style="text-align: center;">About</h1>
-        <p>Founded in 2018, InfoGame has worked to bring gamers everything there is to know about the gaming industry, from
+        <p>Founded in 2023, GameNews has worked to bring gamers everything there is to know about the gaming industry, from
             reviews of the latest game releases to the latest news and rumors.</p>
         <p>Contact Us: <a href="mailto:vallov@ifgame.site">vallov@ifgame.site</a></p>
+        
     </div>
     </div>
     @include('partials._footer')

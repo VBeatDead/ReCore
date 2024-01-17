@@ -143,7 +143,7 @@
         }
 
         .list-group-item {
-            height: 50px;
+            height: 30px;
             overflow: hidden;
             transition: height 0.5s ease;
             position: relative;
