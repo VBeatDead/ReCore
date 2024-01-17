@@ -4,12 +4,14 @@
         <div class="row g-4 position-relative">
             <div class="col-12">
                 <div class="rounded overflow-hidden position-relative img-zoomin">
-                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                    @foreach($recentNews->shuffle()->take(1) as $recentItem)
+                    <a href="{{ route('item.detail', ['id' => $randomItem->id, 'title' => $randomItem->title]) }}">
                         <img src="data:image/jpg;base64,{{ $randomItem->photoUrl }}" class="img-fluid" alt="img" style="width: 800px; height: 250px; object-fit: cover;">
                         <div class="text-overlay">
                             <h4>{{ $randomItem->title }}</h4>
                         </div>
                     </a>
+                    @endforeach
                 </div>
             </div>
         </div>

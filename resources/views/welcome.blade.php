@@ -190,8 +190,6 @@
                             @php
                             $descriptionWords = explode(' ', $item->description);
                             $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
-
-                            // Check if there are more words in the description
                             if (count($descriptionWords) > 10) {
                             $limitedDescription .= ' .....';
                             }
