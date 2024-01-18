@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\newsController;
 use App\Http\Controllers\detailController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\NfController;
 use App\Http\Controllers\SesiController;
 
 Route::middleware(['auth'])->group(function () {
@@ -37,3 +38,4 @@ route::post('/regis', [SesiController::class, 'register'])->name('register');
 Route::get('/{id}/{title}', [detailController::class, 'show'])->name('item.detail');
 Route::get('/random-item', [detailController::class, 'showRandomItem'])->name('random.item');
 Route::get('/comments/{itemId}', [CommentController::class, 'showComments'])->name('comments.show');
+Route::get('/not-found', [NfController::class, 'notAllowed'])->name('nf');

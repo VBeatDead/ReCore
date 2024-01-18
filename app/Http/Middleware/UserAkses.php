@@ -19,6 +19,6 @@ class UserAkses
         if(auth()->user()->role == $role ){
             return $next($request);
         }
-        return response()->json(['Anda tidak diperbolehkan akses halaman ini.']);
+        return redirect()->route('nf');
     }
 }
