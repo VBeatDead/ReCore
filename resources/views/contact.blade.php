@@ -146,10 +146,12 @@
     <div class="ab">
         <h1 style="text-align: center;">Contact Form</h1>
         <p>If you want to contact us for something important:</p>
-        <p>Ahmad Tiova Ian Avola <a href="mailto:tiovavallov@webmail.umm.ac.id">(tiovavallov@webmail.umm.ac.id)</a></p>
-        <p>Brian Yudhistira <a href="mailto:brianyudhistira1@webmail.umm.ac.id">(brianyudhistira1@webmail.umm.ac.id)</a></p>
-        <p>Muhammad Afif Raihan <a href="mailto:afifraihan59@webmail.umm.ac.id">(afifraihan59@webmail.umm.ac.id)</a></p>
-        <p>P. Nuarastu Rangga W.: <a href="mailto:vallov@ifgame.site">vallov@ifgame.site</a></p>
+        <ul>
+            <li><p>Ahmad Tiova Ian Avola <a href="mailto:tiovavallov@webmail.umm.ac.id">(tiovavallov@webmail.umm.ac.id)</a></p </li>
+            <li><p>Brian Yudhistira <a href="mailto:brianyudhistira1@webmail.umm.ac.id">(brianyudhistira1@webmail.umm.ac.id)</a></p></li>
+            <li><p>Muhammad Afif Raihan <a href="mailto:afifraihan59@webmail.umm.ac.id">(afifraihan59@webmail.umm.ac.id)</a></p></li>
+            <li><p>P. Nuarastu Rangga W: <a href="mailto:rangga@webmail.umm.ac.id">rangga@webmail.umm.ac.id</a></p></li>
+        </ul>
     </div>
     </div>
     @include('partials._footer')
