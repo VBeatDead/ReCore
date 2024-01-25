@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
 route::get('/', [newsController::class, 'show'])->name('item.home');
 Route::get('/sidebar', [newsController::class, 'show'])->name('sidebar.show');
-route::get('/about', [AboutController::class, 'show'])->name('item.about');
+route::get('/disclamer', [AboutController::class, 'show'])->name('item.about');
 route::get('/contact', [ContactController::class, 'show'])->name('item.contact');
 route::post('/', [SesiController::class, 'login'])->name('login');
 route::post('/regis', [SesiController::class, 'register'])->name('register');

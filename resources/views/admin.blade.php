@@ -143,6 +143,87 @@
         .img-container img:hover {
             transform: scale(1.1);
         }
+
+        .fixed-size-img {
+            width: 380px;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-grow: 1;
+            }
+
+            .navbar-toggler {
+                order: -1;
+            }
+
+            .title {
+                order: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            .navbar-nav,
+            .title,
+            .title a {
+                margin-right: 0 !important;
+            }
+
+            .title h1 {
+                font-size: 1.5rem;
+            }
+
+            .navbar-collapse {
+                flex-basis: 100%;
+            }
+
+            .navbar-collapse.show {
+                display: flex;
+            }
+
+            .hak {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .kontak,
+            .social {
+                text-align: center;
+                padding-left: 0;
+                margin-top: 20px;
+            }
+
+            .logok,
+            .kontak,
+            .social {
+                width: 100%;
+            }
+
+            .content,
+            .sidebar {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .sidebar {
+                padding-top: 0;
+            }
+
+            .sidelist {
+                padding: 20px;
+            }
+
+            .listitem2 {
+                padding: 2% 2% 3%;
+            }
+
+            .social {
+                display: none;
+            }
+        }
     </style>
 
     @include('partials._navbar')
@@ -159,7 +240,7 @@
                 <div class="col-md-4">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <div class="img-container">
-                            <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
+                            <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid fixed-size-img" alt="img">
                         </div>
                     </a>
                 </div>

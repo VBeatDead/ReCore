@@ -12,6 +12,9 @@
     <style>
         body {
             background-color: #EBF9FF;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
         nav {
@@ -130,12 +133,105 @@
         }
 
         .ab {
-            padding-top: 3%;
-            padding-left: 30%;
-            padding-right: 30%;
-            padding-bottom: 3%;
-            display: flexbox;
-            justify-content: center;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-grow: 1;
+            }
+
+            .navbar-toggler {
+                order: -1;
+            }
+
+            .title {
+                order: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            .navbar-nav,
+            .title,
+            .title a {
+                margin-right: 0 !important;
+            }
+
+            .title h1 {
+                font-size: 1.5rem;
+            }
+
+            .navbar-collapse {
+                flex-basis: 100%;
+            }
+
+            .navbar-collapse.show {
+                display: flex;
+            }
+
+            .hak {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .kontak,
+            .social {
+                text-align: center;
+                padding-left: 0;
+                margin-top: 20px;
+            }
+
+            .logok,
+            .kontak,
+            .social {
+                width: 100%;
+            }
+
+            .content,
+            .sidebar {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .sidebar {
+                padding-top: 0;
+            }
+
+            .ab{
+                padding: 5%;
+            }
+            
+            .social {
+                display: none;
+            }
         }
     </style>
 
@@ -144,13 +240,21 @@
 
 <body>
     <div class="ab">
-        <h1 style="text-align: center;">Contact Form</h1>
+        <h1>Contact Form</h1>
         <p>If you want to contact us for something important:</p>
         <ul>
-            <li><p>Ahmad Tiova Ian Avola <a href="mailto:tiovavallov@webmail.umm.ac.id">(tiovavallov@webmail.umm.ac.id)</a></p </li>
-            <li><p>Brian Yudhistira <a href="mailto:brianyudhistira1@webmail.umm.ac.id">(brianyudhistira1@webmail.umm.ac.id)</a></p></li>
-            <li><p>Muhammad Afif Raihan <a href="mailto:afifraihan59@webmail.umm.ac.id">(afifraihan59@webmail.umm.ac.id)</a></p></li>
-            <li><p>P. Nuarastu Rangga W: <a href="mailto:rangga@webmail.umm.ac.id">rangga@webmail.umm.ac.id</a></p></li>
+            <li>
+                <p>Ahmad Tiova Ian Avola <a href="mailto:tiovavallov@webmail.umm.ac.id">(tiovavallov@webmail.umm.ac.id)</a></p>
+            </li>
+            <li>
+                <p>Brian Yudhistira <a href="mailto:brianyudhistira1@webmail.umm.ac.id">(brianyudhistira1@webmail.umm.ac.id)</a></p>
+            </li>
+            <li>
+                <p>Muhammad Afif Raihan <a href="mailto:afifraihan59@webmail.umm.ac.id">(afifraihan59@webmail.umm.ac.id)</a></p>
+            </li>
+            <li>
+                <p>P. Nuarastu Rangga W: <a href="mailto:rangga@webmail.umm.ac.id">rangga@webmail.umm.ac.id</a></p>
+            </li>
         </ul>
     </div>
     </div>

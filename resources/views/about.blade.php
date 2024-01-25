@@ -137,6 +137,77 @@
             display: flexbox;
             justify-content: center;
         }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-grow: 1;
+            }
+
+            .navbar-toggler {
+                order: -1;
+            }
+
+            .title {
+                order: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            .navbar-nav,
+            .title,
+            .title a {
+                margin-right: 0 !important;
+            }
+
+            .title h1 {
+                font-size: 1.5rem;
+            }
+
+            .navbar-collapse {
+                flex-basis: 100%;
+            }
+
+            .navbar-collapse.show {
+                display: flex;
+            }
+
+            .hak {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .kontak,
+            .social {
+                text-align: center;
+                padding-left: 0;
+                margin-top: 20px;
+            }
+
+            .logok,
+            .kontak,
+            .social {
+                width: 100%;
+            }
+
+            .content,
+            .sidebar {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .sidebar {
+                padding-top: 0;
+            }
+
+            .ab{
+                padding: 5%;
+            }
+
+            .social {
+                display: none;
+            }
+        }
     </style>
 
     @include('partials._navbar')
@@ -144,11 +215,25 @@
 
 <body>
     <div class="ab">
-        <h1 style="text-align: center;">About</h1>
-        <p>Founded in 2023, GameNews has worked to bring gamers everything there is to know about the gaming industry, from
-            reviews of the latest game releases to the latest news and rumors.</p>
-        <p>Contact Us: <a href="mailto:vallov@ifgame.site">vallov@ifgame.site</a></p>
-        
+        <h1 style="text-align: center;">Disclamer</h1>
+        <div>
+            <h1 style="text-align: center;">Penggunaan Website Ini Hanya Untuk Tugas Pribadi</h1>
+            <p style="text-align: justify;">Seluruh konten yang terdapat di website ini dibuat semata-mata untuk memenuhi tugas pribadi saya dalam pembelajaran Laravel. Saya dengan tegas menyatakan bahwa konten-konten yang ada di dalamnya tidak dimaksudkan untuk tujuan komersial, dan saya tidak memiliki niat untuk mengklaim kepemilikan atas materi yang bukan hasil karya saya.</p>
+
+            <ol style="text-align: justify;">
+                <li><strong>Konten dari Sumber Eksternal:</strong> Sebagian besar konten, seperti teks dan gambar, diambil dari sumber-sumber eksternal sebagai referensi dalam rangka pembelajaran. Sumber informasi tersebut memiliki hak cipta dan kepemilikan masing-masing.</li>
+
+                <li><strong>Konten Berlisensi:</strong> Beberapa konten mungkin diambil dari sumber yang memiliki lisensi tertentu. Saya telah berupaya sebaik mungkin untuk mematuhi ketentuan lisensi tersebut dan memberikan kredit yang sesuai. Jika ada kelalaian, harap beri tahu saya agar saya dapat segera mengatasinya.</li>
+
+                <li><strong>Keterbatasan Tanggung Jawab:</strong> Saya tidak bertanggung jawab atas penggunaan yang salah atau ilegal atas konten yang disediakan di website ini. Saya juga tidak bertanggung jawab atas kerugian atau kerusakan yang mungkin timbul akibat penggunaan informasi dari website ini.</li>
+
+                <li><strong>Konten Pribadi:</strong> Semua pandangan dan pendapat yang terdapat di website ini merupakan pandangan pribadi saya dan tidak mencerminkan pandangan lembaga atau individu lainnya.</li>
+
+                <li><strong>Penggunaan Kode dan Script:</strong> Kode dan script yang disediakan di website ini dimaksudkan untuk keperluan pembelajaran saja. Saya menyarankan agar Anda tidak menggunakan atau mengimplementasikan kode tersebut tanpa pemahaman mendalam dan pertimbangan keamanan.</li>
+            </ol>
+
+            <p style="text-align: justify;">Dengan mengakses dan menggunakan website ini, Anda setuju untuk memahami dan menerima kondisi-kondisi yang tercantum dalam disclaimer ini. Saya berhak untuk mengubah atau memperbarui disclaimer ini tanpa pemberitahuan sebelumnya.</p>
+        </div>
     </div>
     </div>
     @include('partials._footer')

@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game News</title>
+    <meta name="description" content="Temukan berita terkini, ulasan game, panduan, dan informasi lengkap seputar dunia permainan video di situs kami. Dapatkan update terbaru mengenai game populer, teknologi gaming, dan acara esports. Jelajahi artikel-artikel menarik tentang gameplay, strategi, dan tren terkini dalam industri game. Sambut dunia game dengan pengetahuan yang mendalam hanya di situs info game kami.">
+    <title>Inpo Game - Temukan Info Game Terbaru</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
@@ -167,6 +168,109 @@
         .list-group-item:hover img {
             opacity: 1;
         }
+
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-grow: 1;
+            }
+
+            .navbar-toggler {
+                order: -1;
+            }
+
+            .title {
+                order: 0;
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            .navbar-nav,
+            .title,
+            .title a {
+                margin-right: 0 !important;
+            }
+
+            .title h1 {
+                font-size: 1.5rem;
+            }
+
+            .navbar-collapse {
+                flex-basis: 100%;
+            }
+
+            .navbar-collapse.show {
+                display: flex;
+            }
+
+            .sidebar {
+                margin-left: 0;
+                width: 100%;
+                margin-top: 20px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .sidelist {
+                flex-direction: column;
+            }
+
+            .hak {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .kontak,
+            .social {
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                padding-left: 0;
+                margin-top: 20px;
+            }
+
+            .logok,
+            .kontak,
+            .social {
+                width: 100%;
+            }
+
+            .listitem {
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+                background-color: #2693C9;
+            }
+
+            .sidelist {
+                padding: 20px;
+            }
+
+            .sidebar,
+            .social {
+                display: none;
+            }
+        }
+
+        @media (max-width: 1300px) {
+            .sidebar {
+                display: none;
+            }
+
+            .sidelist {
+                padding: 20px;
+            }
+
+            .listitem.col-md-9 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        }
+
+        .fixed-size-img {
+            width: 380px;
+            height: 230px;
+            object-fit: cover;
+        }
     </style>
 
     @include('partials._navbar')
@@ -188,7 +292,8 @@
                         <div class="desc carousel-caption d-none d-md-block">
                             <h5>{{ $item->title }}</h5>
                             @php
-                            $descriptionWords = explode(' ', $item->description);
+                            $limitedDescription = strip_tags(htmlspecialchars_decode($item->description));
+                            $descriptionWords = explode(' ', $limitedDescription);
                             $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
                             if (count($descriptionWords) > 10) {
                             $limitedDescription .= ' .....';
@@ -224,7 +329,7 @@
             @if($index < 7) <div class="row g-0 img-zoomin" style="margin-bottom: 30px;">
                 <div class="col-md-4">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                        <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
+                        <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid rounded fixed-size-img" style="padding-right: 3%;" alt="img">
                     </a>
                 </div>
                 <div class="col-md-8">
@@ -233,7 +338,7 @@
                             <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
                             <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
                             <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
-                                {{ \Illuminate\Support\Str::limit($item->description, 255) }}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 255) }}
                             </p>
                         </a>
                     </div>
@@ -261,11 +366,11 @@
                 @endforeach
             </ul>
         </div>
-        @if(Auth::check() && Auth::user()->role == 'user')
+        <!-- @if(Auth::check() && Auth::user()->role == 'user')
         <div class="add">
             <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
         </div>
-        @endif
+        @endif -->
     </div>
     </div>
     @include('partials._footer')

@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="d-flex w-100">
+    <div class="d-flex flex-column flex-md-row w-100">
         <div class="content col-md-9 col-xs-12">
             <div class="detailnews">
                 <div class="listitem2" , style="padding-top: 2%;">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="listitem2" , style="padding-bottom: 2%; text-align: justify;">
                     @if($item)
-                    <p style="padding-top: 3%;">{!! nl2br(e($item->description)) !!}</p>
+                    <p style="padding-top: 3%;">{!! (htmlspecialchars_decode($item->description)) !!}</p>
                     @else
                     <p>No item found.</p>
                     @endif
@@ -58,7 +58,7 @@
         @if($item->comments->count() > 0)
         <ul class="comment-list">
             @foreach($item->comments as $comment)
-            <li class="comment-item" style="width: 30%;">
+            <li class="comment-item">
                 <div class="comment-header">
                     <span class="user-name">{{ $comment->user->name }}</span>
                     <span class="comment-date">{{ $comment->created_at->diffForHumans() }}</span>
@@ -79,10 +79,10 @@
             <input type="hidden" name="item_id" value="{{ $item->id }}">
             <div class="mb-3">
                 <label for="content" class="form-label">Leave a comment:</label>
-                <textarea name="content" class="form-control" required style="width: 30%;"></textarea>
+                <textarea name="content" class="form-control" required></textarea>
             </div>
-            <div class="mb-3 d-flex justify-content-end" style="width: 30%;">
-                <button type="submit" class="btn btn-primary justify-content-end">Submit</button>
+            <div class="mb-3 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
         @else

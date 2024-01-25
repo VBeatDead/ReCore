@@ -6,11 +6,11 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav d-flex justify-content-start col-md-4 col-xs-12">
                 <a class="nav-link active" style="margin-right: 5px; color: #EBF9FF;" href="{{ route('item.home')}}">HOME</a>
-                <a class="nav-link active" style="margin-right: 5px; color: #EBF9FF" href="{{route('item.about')}}">ABOUT US</a>
+                <a class="nav-link active" style="margin-right: 5px; color: #EBF9FF" href="{{route('item.about')}}">DISCLAMER</a>
                 <a class="nav-link active" style="margin-right: 5px; color: #EBF9FF" href="{{route('item.contact')}}">CONTACT</a>
             </div>
             <div class="title d-flex justify-content-center col-md-4 col-xs-12">
-                <h1>Game News</h1>
+                <h1>Inpo Game</h1>
             </div>
             @if(Auth::check())
             <div class="title d-flex justify-content-end col-md-4 col-xs-12">

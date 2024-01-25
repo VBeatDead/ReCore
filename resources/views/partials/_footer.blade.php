@@ -2,7 +2,7 @@
     <div class="hak d-flex col-md-12 col-xs-12 p-30">
         <div class="logok col-md-6 col-xs-12">
             <img src="{{ asset('img/log.png') }}" alt="img" style="width: 94px;">
-            <p>Info Game</p>
+            <p>Inpo Game</p>
         </div>
         <div class="kontak col-md-3 col-xs-12" style="text-align: justify; padding-left: 8%;">
             <p>Kontak</p>
@@ -20,6 +20,6 @@
         </div>
     </div>
     <div class="hak2 text-center p-3 col-md-12 col-xs-12">
-        Hak Cipta © 2023 - 2024. Semua hak dilindungi oleh InfoGame
+        Hak Cipta © 2023 - 2024. Semua hak dilindungi oleh InpoGame
     </div>
 </footer>
