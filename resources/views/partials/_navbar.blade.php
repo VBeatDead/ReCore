@@ -30,9 +30,9 @@
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="container py-5">
-                            <div class="w-100 center border rounded p-4 mx-auto" style="background-color: #f8f9fa;">
-                                <h1 class="text-center mb-4" style="color: #3498db;">Login</h1>
+                        <div class="form-structor">
+                            <div class="signup slide-up">
+                                <h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
                                 @if($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -42,29 +42,35 @@
                                     </ul>
                                 </div>
                                 @endif
-                                <form action="{{ route('login') }}" method="POST">
+                                <form action="{{ route('register') }}" method="POST">
                                     @csrf
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label" style="color: #495057;">Email</label>
-                                        <input type="email" value="{{ old('email') }}" name="email" class="form-control" placeholder="Your Email">
+                                    <div class="form-holder">
+                                        <input type="text" value="{{ old('name') }}" name="name" class="input" placeholder="Name" required />
+                                        <input type="email" value="{{ old('email') }}" name="email" class="input" placeholder="Email" required />
+                                        <input type="password" name="password" class="input" placeholder="Password" required />
+                                        <input type="password" name="password_confirmation" class="input form-control" placeholder="Confirm Password" required />
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label" style="color: #495057;">Password</label>
-                                        <input type="password" name="password" class="form-control" placeholder="Your Password">
-                                    </div>
-                                    <div class="mb-3 d-grid">
-                                        <button name="submit" type="submit" class="btn btn-primary btn-block" style="background-color: #3498db;">Login</button>
-                                    </div>
+                                    <button name="submit" type="submit" class="submit-btn">Sign up</button>
                                 </form>
-                                <div class="text-center">
-                                    <p style="color: #495057;">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal" style="color: #3498db; text-decoration: underline;">Register</a></p>
-                                </div>
                             </div>
+                            <form action="{{ route('login') }}" method="POST">
+                                @csrf
+                                <div class="login">
+                                    <div class="center">
+                                        <h2 class="form-title" id="login"><span>or</span>Log in</h2>
+                                        <div class="form-holder">
+                                            <input type="email" value="{{ old('email') }}" name="email" class="input" placeholder="Email" />
+                                            <input type="password" name="password" class="input" placeholder="Your Password" />
+                                        </div>
+                                        <button name="submit" type="submit" class="submit-btn">Log in</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <!-- <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="container py-5">
@@ -99,7 +105,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             @endif
         </div>
     </div>

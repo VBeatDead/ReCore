@@ -136,7 +136,6 @@
         }
 
         .img-container img {
-            width: 100%;
             transition: transform 0.5s;
         }
 
@@ -145,8 +144,8 @@
         }
 
         .fixed-size-img {
-            width: 380px;
-            height: 280px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
         }
 
@@ -223,6 +222,88 @@
             .social {
                 display: none;
             }
+
+            .item-wrapper {
+                flex-direction: column;
+            }
+
+            .col-md-1 {
+                width: 100%;
+                margin-bottom: 15px;
+                /* Add margin between rows */
+            }
+
+            .col-md-11 {
+                width: 100%;
+            }
+
+            .img-container {
+                text-align: center;
+            }
+
+            .img-container img {
+                width: 100%;
+                height: auto;
+            }
+
+            .d-flex.justify-content-between.align-items-center {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .action-buttons {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .item-date,
+            .comment-count {
+                margin-left: 0 !important;
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+
+        .item-wrapper {
+            border-radius: 10px;
+            padding: 10px;
+            transition: box-shadow 0.3s;
+            background-color: #EBF9FF;
+        }
+
+        .item-wrapper:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .item-title {
+            color: #000000;
+            margin-left: 6px;
+        }
+
+        .action-buttons {
+            margin-top: 5px;
+        }
+
+        .item-name,
+        .item-date {
+            color: #000000;
+            margin-left: 6px;
+        }
+
+        .action-icon {
+            width: 25px;
+            height: 25px;
+            margin-right: -8px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            display: none;
+        }
+
+        .item-wrapper:hover .edit-btn,
+        .item-wrapper:hover .delete-btn {
+            display: inline-block;
         }
     </style>
 
@@ -236,30 +317,42 @@
     <div class="sidelist d-flex w-100">
         <div class="listitem col-md-12 col-xs-12">
             @foreach($data->reverse() as $index => $item)
-            <div class="row g-0" style="margin-bottom: 30px;">
-                <div class="col-md-4">
+            <div class="row g-0 item-wrapper" style="margin-bottom: 30px; align-items: center;">
+                <div class="col-md-1">
                     <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
                         <div class="img-container">
                             <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid fixed-size-img" alt="img">
                         </div>
                     </a>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                            <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
-                        </a>
-                        <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
-                        <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
-                            {{ \Illuminate\Support\Str::limit($item->description, 255) }}
-                        </p>
-                        <div class="d-flex justify-content-end">
-                            <a href="{{ route('item.edit', ['id' => $item->id]) }}" class="btn btn-primary">Update</a>
-                            <form action="{{ route('item.delete', ['id' => $item->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger ml-2">Delete</button>
-                            </form>
+                <div class="col-md-11">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                <h5 class="card-title item-title">{{ $item->title }}</h5>
+                            </a>
+                            <div class="d-flex action-buttons">
+                                <a href="{{ route('item.edit', ['id' => $item->id]) }}" class="btn edit-btn">
+                                    <img src="{{ asset('img/edit.png') }}" alt="Update" class="action-icon">
+                                </a>
+                                <form action="{{ route('item.delete', ['id' => $item->id]) }}" method="POST" style="margin-left: 0.5rem;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn delete-btn">
+                                        <img src="{{ asset('img/delete.png') }}" alt="Delete" class="action-icon">
+                                    </button>
+                                </form>
+                                <p class="item-name" style="padding-top: 8px;">{{ $item->name }}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <p class="item-date">{{ $item->created_at->format('l, j F Y') }}</p>
+                            <p class="comment-count" style="margin-left: auto;">
+                                {{ $item->comments()->count() }}
+                                <img src="{{ asset('img/comment.png') }}" alt="comment" class="action-icon" style="margin-left: 7px; margin-right: 18px">
+                                {{ Session::get('page_views_' . $item->id, 0) }}
+                                <img src="{{ asset('img/bar-graph.png') }}" alt="visitor" class="action-icon" style="margin-left: 5px; margin-right: 1px; margin-bottom: 5px;">
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -267,6 +360,7 @@
             @endforeach
         </div>
     </div>
+
     </div>
     @include('partials._footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

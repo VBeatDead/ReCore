@@ -16,7 +16,7 @@ class AdminController extends Controller
     function admin()
     {
         $data=personal::all();
-        return view('admin',compact('data'));
+        return view('adminv2',compact('data'));
     }
 
     function user()
