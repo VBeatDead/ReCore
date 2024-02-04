@@ -16,7 +16,19 @@ class AdminController extends Controller
     function admin()
     {
         $data=personal::all();
-        return view('adminv2',compact('data'));
+        return view('admin',compact('data'));
+    }
+
+    function black()
+    {
+        $data=personal::all();
+        return view('black',compact('data'));
+    }
+
+    function price()
+    {
+        $data=personal::all();
+        return view('price',compact('data'));
     }
 
     function user()

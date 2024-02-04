@@ -8,22 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/sideoff.css') }}">
 
     <style>
         body {
             background-color: #EBF9FF;
-        }
-
-        nav {
-            color: white;
-            display: flex;
-            justify-content: center;
-            background-color: #2693C9;
-        }
-
-        nav a {
-            text-decoration: #EBF9FF;
-            color: #EBF9FF;
         }
 
         a {
@@ -142,7 +131,7 @@
         }
     </style>
 
-    @include('partials._navbar')
+    @include('partials._sideoff')
 </head>
 
 <body>
@@ -167,7 +156,6 @@
             </div>
         </form>
     </div>
-    @include('partials._footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
     <script src="https://cdn.tiny.cloud/1/ozg53o9yjv3yarjgn4ijn8hs6j2txljs8jjikhj51858s6pg/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>

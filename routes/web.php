@@ -13,13 +13,16 @@ use App\Http\Controllers\SesiController;
 
 Route::middleware(['auth'])->group(function () {
     route::get('/', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
-    route::get('/admin', [AdminController::class, 'admin'])->name('setting')->middleware('userAkses:admin');
+    route::get('/admin', [AdminController::class, 'admin'])->name('setting');
+
+    route::get('/indah', [AdminController::class, 'black'])->name('black');
+    route::get('/indahp', [AdminController::class, 'price'])->name('price');
 
     Route::get('/item/{id}/edit', [ItemController::class, 'edit'])->name('item.edit')->middleware('userAkses:admin');
     Route::put('/item/{id}', [ItemController::class, 'update'])->name('item.update')->middleware('userAkses:admin');
     Route::delete('/item/{id}', [newsController::class, 'destroy'])->name('item.delete')->middleware('userAkses:admin');
 
-    Route::get('/item/create', [newsController::class, 'create'])->name('item.create');
+    Route::get('/item/create', [newsController::class, 'create'])->name('item.create')->middleware('userAkses:admin');
     Route::post('/item', [newsController::class, 'store'])->name('item.store');
 
     Route::get('/logout', [SesiController::class, 'logout'])->name('logout');

@@ -32,10 +32,14 @@ class SesiController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect('');
             } elseif (Auth::attempt($infologin)) {
+                if (Auth::user()->role == 'in') {
+                    return redirect('');
+                }
+            } elseif (Auth::attempt($infologin)) {
                 if (Auth::user()->role == 'user') {
                     return redirect('');
                 }
-            }
+            } 
         } else {
             return redirect('')->withErrors('Email dan Password yang dimasukkan tidak sesuai')->withInput();
         }

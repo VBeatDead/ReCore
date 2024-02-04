@@ -10,6 +10,7 @@
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
     <link rel="stylesheet" href="{{ asset('css/nf.css') }}">
 </head>
+
 <body>
     <div class="center">
         <div class="error">
@@ -32,7 +33,9 @@
             </div>
             <div class="number">4</div>
         </div>
-        <div class="text">Oops. The page you're looking for doesn't exist.</div>
+        <div class="text" style="text-align: center;">Oops. The page you're looking for doesn't exist
+            <p>Or you do not have permission to access this page</p>
+        </div>
         <a class="button" href="{{ route('item.home')}}">Back Home</a>
     </div>
     </div>

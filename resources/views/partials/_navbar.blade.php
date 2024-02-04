@@ -14,7 +14,7 @@
             </div>
             @if(Auth::check())
             <div class="title d-flex justify-content-end col-md-4 col-xs-12">
-                @if(Auth::check() && Auth::user()->role == 'admin')
+                @if(Auth::check() && Auth::user()->role == 'admin' || Auth::user()->role == 'in')
                 <a href="{{ route('setting') }}">
                     <img class="rectangle" src="{{ asset('img/settings.png') }}" width="30px" style="margin-right: 40px;" />
                 </a>
