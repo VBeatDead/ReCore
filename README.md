@@ -2,7 +2,7 @@
 
 **ReCore** is a basic web application built with Laravel that allows users to create, manage, and view news articles related to gaming. This project was created as a learning exercise in web development, focusing on the fundamentals of PHP, Laravel, and modern web technologies.
 
-![alt text](public\img\image.png)  
+![Admin panel interface](public/img/image.png)  
 *Admin panel interface allows for easy management of news articles.*
 
 #### Features:
