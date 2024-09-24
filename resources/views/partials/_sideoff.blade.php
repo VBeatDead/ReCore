@@ -70,7 +70,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('price') }}">
+            <a href="{{ route('nf') }}">
                 <i class="fa fa-info fa-2x"></i>
                 <span class="nav-text">
                     BLACK IND
