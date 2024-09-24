@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('newsgame', function (Blueprint $table) {
             $table->id();
-            $table->string('photoUrl');
+            $table->longText('photoUrl');
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
             $table->string('name');
             $table->timestamps();
         });
