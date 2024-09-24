@@ -83,7 +83,6 @@ Flowers
                 <div class="flower__light flower__light--6"></div>
                 <div class="flower__light flower__light--7"></div>
                 <div class="flower__light flower__light--8"></div>
-
             </div>
             <div class="flower__line">
                 <div class="flower__line__leaf flower__line__leaf--1"></div>
