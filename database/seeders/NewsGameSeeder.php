@@ -20,8 +20,8 @@ class NewsGameSeeder extends Seeder
             DB::table('newsgame')->insert([
                 'photoUrl' => $imagePath,
                 'title' => $faker->sentence(6),
-                'description' => $faker->paragraph(3),
-                'name' => 'Game Reporter',
+                'description' => $faker->paragraph(100),
+                'name' => 'Game Reporter V',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
