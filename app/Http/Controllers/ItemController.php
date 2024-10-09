@@ -35,6 +35,6 @@ class ItemController extends Controller
 
         $item->save();
 
-        return redirect()->route('item.home')->with('success', 'News updated successfully.');
+        return redirect()->route('setting')->with('success', 'News updated successfully.');
     }
 }

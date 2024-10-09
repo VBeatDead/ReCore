@@ -58,6 +58,6 @@ class newsController extends Controller
         $item = personal::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('setting')->with('success', 'Item deleted successfully.');
+        return redirect()->route('setting')->with('success', 'Berita berhasil dihapus.');
     }
 }
