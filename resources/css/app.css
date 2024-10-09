@@ -1,17 +1,17 @@
 body {
-    background-color: #EBF9FF;
+    background-color: #ebf9ff;
 }
 
 nav {
     color: white;
     display: flex;
     justify-content: center;
-    background-color: #2693C9;
+    background-color: #2693c9;
 }
 
 nav a {
-    text-decoration: #EBF9FF;
-    color: #EBF9FF;
+    text-decoration: #ebf9ff;
+    color: #ebf9ff;
 }
 
 .sizeslide {
@@ -29,7 +29,11 @@ nav a {
     right: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
     z-index: 1;
 }
 
@@ -75,8 +79,8 @@ nav a {
 
 .hak {
     padding: 40px;
-    color: #EBF9FF;
-    background-color: #386FA4;
+    color: #ebf9ff;
+    background-color: #386fa4;
 }
 
 .logok {
@@ -91,7 +95,7 @@ nav a {
 }
 
 .logok p {
-    color: #EBF9FF;
+    color: #ebf9ff;
     font-size: 50px;
     margin-left: 20px;
     text-align: center;
@@ -99,8 +103,8 @@ nav a {
 }
 
 .hak2 {
-    color: #EBF9FF;
-    background-color: #2693C9;
+    color: #ebf9ff;
+    background-color: #2693c9;
 }
 
 .comments-section {
