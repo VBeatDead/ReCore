@@ -30,18 +30,18 @@
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
+                        @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $item)
+                                <li>{{$item}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
                         <div class="form-structor">
                             <div class="signup slide-up">
                                 <h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
-                                @if($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $item)
-                                        <li>{{$item}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                @endif
                                 <form action="{{ route('register') }}" method="POST">
                                     @csrf
                                     <div class="form-holder">

@@ -10,39 +10,42 @@ use Illuminate\Support\Facades\Hash;
 
 class SesiController extends Controller
 {
-    function login(request $request)
+
+    public function login(Request $request)
     {
         $request->validate(
             [
-                'email' => 'required',
+                'email' => 'required|email',
                 'password' => 'required',
             ],
             [
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
+                'email.email' => 'Format email tidak valid',
             ]
         );
 
-        $infologin = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+        $email = $request->email;
+        $password = $request->password;
+        $user = \App\Models\User::where('email', $email)->first();
 
-        if (Auth::attempt($infologin)) {
-            if (Auth::user()->role == 'admin') {
-                return redirect('');
-            } elseif (Auth::attempt($infologin)) {
-                if (Auth::user()->role == 'in') {
-                    return redirect('');
-                }
-            } elseif (Auth::attempt($infologin)) {
-                if (Auth::user()->role == 'user') {
-                    return redirect('');
-                }
-            } 
-        } else {
-            return redirect('')->withErrors('Email dan Password yang dimasukkan tidak sesuai')->withInput();
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Email tidak terdaftar'])->withInput();
         }
+
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            if (Auth::user()->role == 'admin') {
+                return redirect('/admin');
+            } elseif (Auth::user()->role == 'in') {
+                return redirect('/in');
+            } elseif (Auth::user()->role == 'user') {
+                return redirect('/user');
+            }
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Password salah'])->withInput();
+        }
+
+        return redirect()->back()->withErrors(['email' => 'Email dan Password tidak valid'])->withInput();
     }
 
     function register(Request $request)

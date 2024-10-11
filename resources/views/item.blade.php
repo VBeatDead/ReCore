@@ -141,16 +141,40 @@
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title')}}">
+                @error('title')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="photoUrl" class="form-label">Photo</label>
-                <input type="file" class="form-control" id="photoUrl" name="photoUrl">
+                <input type="file" class="form-control @error('photoUrl') is-invalid @enderror" id="photoUrl" name="photoUrl" accept="image/*">
+                
+                @error('photoUrl')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            
+                <div class="text-muted">Max file size: 2MB</div>
             </div>
+            
+            <script>
+                document.getElementById('photoUrl').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const maxSize = 2 * 1024 * 1024;
+            
+                    if (file && file.size > maxSize) {
+                        alert("File is too large. Max size is 2 MB.");
+                        event.target.value = '';
+                    }
+                });
+            </script>            
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
@@ -166,6 +190,17 @@
             toolbar_mode: 'floating',
             height: 300,
         });
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        @if(session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+    
+        @if(session('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
     </script>
 </body>
 
