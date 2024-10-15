@@ -28,8 +28,8 @@ class newsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required',
+            'title' => 'required|min:5|max:5000',
+            'description' => 'required|min:5|max:5000',
             'photoUrl' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 

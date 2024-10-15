@@ -15,8 +15,8 @@ class SesiController extends Controller
     {
         $request->validate(
             [
-                'email' => 'required|email',
-                'password' => 'required',
+                'email' => 'required|min:6|email',
+                'password' => 'required|min:6|max:21',
             ],
             [
                 'email.required' => 'Email wajib diisi',
@@ -51,9 +51,9 @@ class SesiController extends Controller
     function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
+            'name' => 'required|min:6',
+            'email' => 'required|email|min:6|unique:users,email',
+            'password' => 'required|min:6|max:21|confirmed',
         ], [
             'name.required' => 'Name wajib diisi',
             'email.required' => 'Email wajib diisi',
@@ -61,6 +61,7 @@ class SesiController extends Controller
             'email.unique' => 'Email sudah digunakan',
             'password.required' => 'Password wajib diisi',
             'password.min' => 'Password minimal 6 karakter',
+            'password.max' => 'Password maximal 21 karakter',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
         ]);
 
