@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game News</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
     <link rel="stylesheet" href="{{ asset('css/sideoff.css') }}">
@@ -269,7 +270,7 @@
             margin-right: -8px;
         }
 
-        .edit-btn,
+        /* .edit-btn,
         .delete-btn {
             display: none;
         }
@@ -277,7 +278,7 @@
         .item-wrapper:hover .edit-btn,
         .item-wrapper:hover .delete-btn {
             display: inline-block;
-        }
+        } */
     </style>
 
     @include('partials._sideoff')
@@ -290,65 +291,72 @@
         </div> -->
         <div class="sidelist d-flex w-100">
             <div class="listitem col-md-12 col-xs-12">
-                @foreach($data->reverse() as $index => $item)
-                <div class="row g-0 item-wrapper" style="margin-bottom: 30px; align-items: center;">
-                    <div class="col-md-1">
-                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                            <div class="img-container">
-                                <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid fixed-size-img" alt="img">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-11">
-                        <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                                    <h5 class="card-title item-title">{{ $item->title }}</h5>
-                                </a>
-                                <div class="d-flex action-buttons">
-                                    <a href="{{ route('item.edit', ['id' => $item->id]) }}" class="btn edit-btn">
-                                        <img src="{{ asset('img/edit.png') }}" alt="Update" class="action-icon">
-                                    </a>
-                                    <form action="{{ route('item.delete', ['id' => $item->id]) }}" method="POST" style="margin-left: 0.5rem;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn delete-btn">
-                                            <img src="{{ asset('img/delete.png') }}" alt="Delete" class="action-icon">
-                                        </button>
-                                    </form>
-                                    <p class="item-name" style="padding-top: 8px;">{{ $item->name }}</p>
+                @foreach ($data->reverse() as $index => $item)
+                    <div class="row g-0 item-wrapper" style="margin-bottom: 30px; align-items: center;">
+                        <div class="col-md-1">
+                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                <div class="img-container">
+                                    <img src="data:image/jpg;base64,{{ $item->photoUrl }}"
+                                        class="img-fluid fixed-size-img" alt="img">
                                 </div>
-                            </div>
-                            <div class="d-flex">
-                                <p class="item-date">{{ $item->created_at->format('l, j F Y') }}</p>
-                                <p class="comment-count" style="margin-left: auto;">
-                                    {{ $item->comments()->count() }}
-                                    <img src="{{ asset('img/comment.png') }}" alt="comment" class="action-icon" style="margin-left: 7px; margin-right: 18px">
-                                    {{ Session::get('page_views_' . $item->id, 0) }}
-                                    <img src="{{ asset('img/bar-graph.png') }}" alt="visitor" class="action-icon" style="margin-left: 5px; margin-right: 1px; margin-bottom: 5px;">
-                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-11">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                        <h5 class="card-title item-title">{{ $item->title }}</h5>
+                                    </a>
+                                    <div class="d-flex action-buttons">
+                                        <a href="{{ route('item.edit', ['id' => $item->id]) }}" class="btn edit-btn">
+                                            <img src="{{ asset('img/edit.png') }}" alt="Update" class="action-icon">
+                                        </a>
+                                        <form action="{{ route('item.delete', ['id' => $item->id]) }}" method="POST"
+                                            style="margin-left: 0.5rem;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn delete-btn">
+                                                <img src="{{ asset('img/delete.png') }}" alt="Delete"
+                                                    class="action-icon">
+                                            </button>
+                                        </form>
+                                        <p class="item-name" style="padding-top: 8px;">{{ $item->name }}</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <p class="item-date">{{ $item->created_at->format('l, j F Y') }}</p>
+                                    <p class="comment-count" style="margin-left: auto;">
+                                        {{ $item->comments()->count() }}
+                                        <img src="{{ asset('img/comment.png') }}" alt="comment" class="action-icon"
+                                            style="margin-left: 7px; margin-right: 18px">
+                                        {{ Session::get('page_views_' . $item->id, 0) }}
+                                        <img src="{{ asset('img/bar-graph.png') }}" alt="visitor" class="action-icon"
+                                            style="margin-left: 5px; margin-right: 1px; margin-bottom: 5px;">
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        @if(session('success'))
+        @if (session('success'))
             toastr.success("{{ session('success') }}");
         @endif
-    
-        @if(session('error'))
+
+        @if (session('error'))
             toastr.error("{{ session('error') }}");
         @endif
-    </script>    
+    </script>
 </body>
 
 </html>

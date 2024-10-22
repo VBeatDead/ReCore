@@ -39,7 +39,7 @@ class SesiController extends Controller
             } elseif (Auth::user()->role == 'in') {
                 return redirect('/in');
             } elseif (Auth::user()->role == 'user') {
-                return redirect('/user');
+                return redirect('/');
             }
         } else {
             return redirect()->back()->withErrors(['password' => 'Password salah'])->withInput();

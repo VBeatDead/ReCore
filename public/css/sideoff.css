@@ -1,203 +1,219 @@
-@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
-@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
-
-.fa-2x {
-  font-size: 2em;
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 75px;
+    background: #2693c9;
+    padding: 6px 14px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 100;
 }
 
-.fa {
-  position: relative;
-  display: table-cell;
-  width: 70px;
-  height: 46px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 25px;
+.sidebar.active {
+    width: 230px;
 }
 
-
-.main-menu:hover,
-nav.main-menu.expanded {
-  width: 240px;
-  overflow: visible;
-}
-
-.main-menu {
-  background: #2693C9;
-  border-right: 1px solid #EBF9FF;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  height: 100%;
-  left: 0;
-  width: 60px;
-  overflow: hidden;
-  -webkit-transition: width .05s linear;
-  transition: width 0.3s ease;
-  -webkit-transform: translateZ(0) scale(1, 1);
-  z-index: 1000;
-}
-
-.main-menu>ul {
-  margin: 7px 0;
-}
-
-.main-menu li {
-  position: relative;
-  display: block;
-  width: 240px;
-}
-
-.main-menu li>a {
-  position: relative;
-  display: table;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: #EBF9FF;
-  font-family: arial;
-  font-size: 16px;
-  font-weight: 590;
-  text-decoration: none;
-  -webkit-transform: translateZ(0) scale(1, 1);
-  -webkit-transition: all .1s linear;
-  transition: all .1s linear;
-}
-
-.main-menu .nav-icon {
-  position: relative;
-  display: table-cell;
-  width: 60px;
-  height: 36px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 18px;
-}
-
-.main-menu .nav-text {
-  position: relative;
-  display: table-cell;
-  vertical-align: middle;
-  width: 190px;
-  font-family: 'Titillium Web', sans-serif;
-}
-
-.main-menu>ul.logout {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-}
-
-.no-touch .scrollable.hover {
-  overflow-y: hidden;
-}
-
-.no-touch .scrollable.hover:hover {
-  overflow-y: auto;
-  overflow: visible;
-}
-
-a:hover,
-a:focus {
-  text-decoration: none;
-}
-
-nav {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-nav ul,
-nav li {
-  outline: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.main-menu li:hover>a,
-nav.main-menu li.active>a,
-.dropdown-menu>li>a:hover,
-.dropdown-menu>li>a:focus,
-.dropdown-menu>.active>a,
-.dropdown-menu>.active>a:hover,
-.dropdown-menu>.active>a:focus,
-.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,
-.dashboard-page nav.dashboard-menu ul li.active a {
-  color: #EBF9FF;
-  background-color: #133C55;
-}
-
-.sideoff {
-  margin-left: 60px;
-  transition: margin-left 0.3s ease;
-  padding-left: 60px;
-}
-
-.main-menu:hover+.sideoff {
-  margin-left: 250px;
-}
-
-.area {
-  float: left;
-  background: #EBF9FF;
-  width: 100%;
-  height: 100%;
-}
-
-@font-face {
-  font-family: 'Titillium Web';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
-}
-
-.dashboard-title {
-  position: relative;
-  display: none;
-  transition: opacity 0.3s ease;
-  text-align: center;
-  text-transform: uppercase;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  color: #EBF9FF;
-}
-
-.dashboard-title span::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #EBF9FF;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.main-menu:hover .dashboard-title {
-  display: block;
-  opacity: 1;
-}
-
-.main-menu:hover .dashboard-title span::after {
-  opacity: 1;
-}
-
-
-@media (max-width: 768px) {
-  .content {
+.sidebar .logo-container {
+    display: flex;
+    align-items: center;
+    height: 50px;
     width: 100%;
-    margin-left: 0;
-  }
+    margin-bottom: 8px;
 }
 
-.nav-text {
-  opacity: 0;
-  transition: opacity 0.5s ease;
+.sidebar .logo-icon {
+    min-width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.main-menu:hover .nav-text {
-  opacity: 1;
+.sidebar .logo-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+.sidebar .logo {
+    color: #11101d;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active .logo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar .logo_name {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active .logo_name {
+    opacity: 1;
+}
+
+.logo_name {
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
+
+.sidebar .nav-list {
+    margin-top: 20px;
+    height: 100%;
+    padding: 0;
+}
+
+.sidebar li {
+    position: relative;
+    margin: 8px 0;
+    list-style: none;
+}
+
+.sidebar li a {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.sidebar li a:hover {
+    background: #f6f8fa;
+}
+
+.sidebar li a i {
+    display: flex;
+    min-width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 12px;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar li a .link_name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.sidebar.active li a .link_name {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar li a:hover i,
+.sidebar li a:hover .link_name {
+    color: #3699ff;
+}
+
+.sidebar .profile {
+    position: fixed;
+    height: 60px;
+    width: 75px;
+    left: 0;
+    bottom: 0;
+    padding: 10px 14px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: #ebf9ff;
+}
+
+.sidebar.active .profile {
+    width: 230px;
+}
+
+.sidebar .profile .profile-details {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar.active .profile .profile-details {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar .profile .logout {
+    position: absolute;
+    left: 50%;
+    bottom: 5px;
+    transform: translateX(-50%);
+    min-width: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: #dc3545;
+    transition: all 0.3s ease;
+}
+
+.sidebar .profile .logout:hover {
+    background: #ffeef0;
+}
+
+/* Tambahan untuk tombol toggle */
+.toggle-btn {
+    position: absolute;
+    right: -25px;
+    top: 10px;
+    width: 25px;
+    height: 25px;
+    background: #2693c9;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 101;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn svg {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.active .toggle-btn svg {
+    transform: rotate(180deg);
+}
+
+/* Main content adjustment */
+.sideoff {
+    position: relative;
+    min-height: 100vh;
+    left: 75px;
+    width: calc(100% - 75px);
+    transition: all 0.3s ease;
+}
+
+.sidebar.active ~ .sideoff {
+    left: 240px;
+    width: calc(100% - 240px);
 }
