@@ -12,6 +12,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
         body {
@@ -551,6 +552,110 @@
                 }
             }
         }
+
+        .filters {
+            padding: 20px 0;
+        }
+
+        .filters .form-control,
+        .filters .btn {
+            border-radius: 10px;
+            padding: 10px 15px;
+        }
+
+        .filters .form-control::placeholder {
+            color: #bbb;
+        }
+
+        .filters .btn-primary {
+            background-color: #2693C9;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .filters .btn-primary:hover {
+            background-color: #1e7fab;
+        }
+
+        @media (max-width: 768px) {
+
+            .filters .col-lg-3,
+            .filters .col-lg-2 {
+                margin-bottom: 10px;
+            }
+        }
+
+        .news-card {
+            transition: all 0.3s ease;
+            background: #FFFFFF;
+        }
+
+        .news-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .text-hover-primary:hover {
+            color: #4F46E5 !important;
+            transition: color 0.3s ease;
+        }
+
+        .pagination {
+            gap: 5px;
+        }
+
+        .page-item:first-child .page-link,
+        .page-item:last-child .page-link {
+            border-radius: 6px;
+        }
+
+        .page-link {
+            border-radius: 6px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #4F46E5;
+            padding: 8px 16px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .page-link:hover {
+            background-color: #4F46E5;
+            color: white;
+            border-color: #4F46E5;
+        }
+
+        .page-item.active .page-link {
+            background-color: #4F46E5;
+            border-color: #4F46E5;
+        }
+
+        .image-hover-zoom {
+            overflow: hidden;
+            display: block;
+        }
+
+        /* Optional: Add smooth scrolling to the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Optional: Custom scrollbar for modern browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1e7fab;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e7fab;
+        }
     </style>
 
     @include('partials._navbar')
@@ -611,109 +716,210 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <div class="sidelist d-flex w-100">
+    <div class="filters container">
+        <form action="{{ route('item.search') }}" method="GET" class="row g-3 align-items-end">
+            <div class="col-lg-3 col-md-6 col-12">
+                <input type="text" name="search" class="form-control" placeholder="Search news..."
+                    value="{{ request('search') }}">
+            </div>
+            <div class="col-lg-2 col-md-6 col-12">
+                <select name="category" class="form-control">
+                    <option value="">All Categories</option>
+                    @foreach (App\Models\Personal::getCategories() as $key => $value)
+                        <option value="{{ $key }}" {{ request('category') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-6 col-12">
+                <select name="reading_level" class="form-control">
+                    <option value="">All Levels</option>
+                    @foreach (App\Models\Personal::getReadingLevels() as $key => $value)
+                        <option value="{{ $key }}" {{ request('reading_level') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+                <input type="text" name="tag" class="form-control" placeholder="Search by tag"
+                    value="{{ request('tag') }}">
+            </div>
+            <div class="col-lg-2 col-md-12 col-12">
+                <button type="submit" class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="sidelist d-flex w-100" style="margin-top: -4%">
+        <!-- News List -->
         <div class="listitem col-md-9 col-xs-12">
             @foreach ($data as $index => $item)
-                @if ($index < 7)
-                    <div class="row g-0 img-zoomin" style="margin-bottom: 30px;">
-                        <div class="col-md-4">
-                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                                <img src="data:image/jpg;base64,{{ $item->photoUrl }}"
-                                    class="img-fluid rounded fixed-size-img" style="padding-right: 3%;" alt="img">
+                <div class="news-card bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 mb-4 overflow-hidden"
+                    style="border: 1px solid rgba(0,0,0,0.05); border-radius: 12px;"> <!-- Set border-radius here -->
+                    <div class="row g-0">
+                        <!-- Image column -->
+                        <div class="col-md-4 position-relative overflow-hidden rounded-start"
+                            style="border-radius: 12px 0 0 12px; align-content: center; text-align: center;">
+                            <!-- Rounded start -->
+                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}"
+                                class="image-hover-zoom d-block h-100">
+                                <div class="img-wrapper"
+                                    style="width: 100%; height: 240px; overflow: hidden; position: relative; border-radius: 12px 0 0 12px;">
+                                    <!-- Rounded start -->
+                                    <img src="data:image/jpg;base64,{{ $item->photoUrl }}"
+                                        class="img-fluid w-100 h-100 object-fit-cover transition-transform duration-300"
+                                        style="transform: scale(1); transition: transform 0.3s ease; object-fit: cover;"
+                                        alt="{{ $item->title }}" onmouseover="this.style.transform='scale(1.05)'"
+                                        onmouseout="this.style.transform='scale(1)'">
+                                </div>
                             </a>
                         </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                                    <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
-                                    <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
-                                    <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 255) }}
-                                    </p>
+
+                        <!-- Content column -->
+                        <div class="col-md-8 rounded-end" style="border-radius: 0 12px 12px 0;"> <!-- Rounded end -->
+                            <div class="p-4">
+                                <!-- Categories and Level -->
+                                <div class="d-flex flex-wrap gap-2 mb-3">
+                                    @if (!empty($item->category))
+                                        <span class="badge"
+                                            style="background-color: #4F46E5; color: white; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem;">
+                                            {{ $item->category }}
+                                        </span>
+                                    @endif
+
+                                    <span class="badge"
+                                        style="background-color: #6B7280; color: white; font-weight: 500; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem;">
+                                        {{ App\Models\Personal::getReadingLevels()[$item->reading_level] }}
+                                    </span>
+                                </div>
+
+                                <!-- Title -->
+                                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}"
+                                    class="text-decoration-none">
+                                    <h5 class="fw-bold mb-2 text-hover-primary"
+                                        style="color: #1F2937; font-size: 1.25rem; line-height: 1.4;">
+                                        {{ $item->title }}
+                                    </h5>
                                 </a>
+
+                                <!-- Author -->
+                                <p class="text-muted mb-3" style="font-size: 0.875rem;">
+                                    <span class="me-2">
+                                        <i class="far fa-user-circle"></i>
+                                    </span>
+                                    {{ $item->name }}
+                                    <span class="mx-2">•</span>
+                                    <span>{{ $item->created_at->diffForHumans() }}</span>
+                                </p>
+
+                                <!-- Description -->
+                                <p class="text-secondary mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 120) }}
+                                </p>
+
+                                <!-- Tags -->
+                                <div class="d-flex flex-wrap gap-2">
+                                    @if (is_array($item->tags) || is_object($item->tags))
+                                        @foreach ($item->tags as $tag)
+                                            <span class="badge bg-light text-dark"
+                                                style="padding: 6px 12px; font-size: 0.75rem; font-weight: 500; border-radius: 6px; border: 1px solid rgba(0,0,0,0.05);">
+                                                #{{ $tag }}
+                                            </span>
+                                        @endforeach
+                                    @else
+                                        <span class="badge bg-light text-secondary"
+                                            style="padding: 6px 12px; font-size: 0.75rem; font-weight: 500; border-radius: 6px; border: 1px solid rgba(0,0,0,0.05);">
+                                            No tags
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
-                @else
-                @break
-            @endif
-        @endforeach
-        <div class="card-footer">
-            {{ $data->links('pagination::bootstrap-4') }}
+                </div>
+            @endforeach
+
+            <!-- Pagination with custom styling -->
+            <div class="pagination-wrapper py-4" style="margin-bottom: -3%">
+                <nav aria-label="Page navigation">
+                    {{ $data->links('pagination::bootstrap-4') }}
+                </nav>
+            </div>
+        </div>
+
+        <!-- Sidebar for Popular Items -->
+        <div class="sidebar col-md-3 col-xs-12" style="margin-left: 80px;">
+            <h4 style="margin-left: 20;">
+                Popular</h4>
+            <div class="itempopular">
+                <ul class="list-item">
+                    @foreach ($data->take(15) as $item)
+                        <li class="list-group-item">
+                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                {{ $item->title }}
+                                <img src="data:image/jpg;base64,{{ $item->photoUrl }}" alt="Item Image">
+                            </a>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="sidebar col-md-3 col-xs-12" style="margin-left: 80px;">
-        <h4 style="margin-left: 20px;">Popular</h4>
-        <div class="itempopular">
-            <ul class="list-item">
-                @foreach ($page->take(15) as $item)
-                    <li class="list-group-item">
-                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                            {{ $item->title }}
-                            <img src="data:image/jpg;base64,{{ $item->photoUrl }}" alt="Item Image">
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-        <!-- @if (Auth::check() && Auth::user()->role == 'user')
-<div class="add">
-        <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
+
     </div>
-@endif -->
-    </div>
-</div>
-@include('partials._footer')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
-<script>
-    $('#autoSlideCarousel').carousel({
-        interval: 1000
-    });
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H9NTB97Z3X"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-H9NTB97Z3X');
-</script>
-<script>
-    console.clear();
-
-    const loginBtn = document.getElementById('login');
-    const signupBtn = document.getElementById('signup');
-
-    loginBtn.addEventListener('click', (e) => {
-        let parent = e.target.parentNode.parentNode;
-        Array.from(e.target.parentNode.parentNode.classList).find((element) => {
-            if (element !== "slide-up") {
-                parent.classList.add('slide-up')
-            } else {
-                signupBtn.parentNode.classList.add('slide-up')
-                parent.classList.remove('slide-up')
-            }
+    @include('partials._footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
+    <script>
+        $('#autoSlideCarousel').carousel({
+            interval: 1000
         });
-    });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9NTB97Z3X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    signupBtn.addEventListener('click', (e) => {
-        let parent = e.target.parentNode;
-        Array.from(e.target.parentNode.classList).find((element) => {
-            if (element !== "slide-up") {
-                parent.classList.add('slide-up')
-            } else {
-                loginBtn.parentNode.parentNode.classList.add('slide-up')
-                parent.classList.remove('slide-up')
-            }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-H9NTB97Z3X');
+    </script>
+    <script>
+        console.clear();
+
+        const loginBtn = document.getElementById('login');
+        const signupBtn = document.getElementById('signup');
+
+        loginBtn.addEventListener('click', (e) => {
+            let parent = e.target.parentNode.parentNode;
+            Array.from(e.target.parentNode.parentNode.classList).find((element) => {
+                if (element !== "slide-up") {
+                    parent.classList.add('slide-up')
+                } else {
+                    signupBtn.parentNode.classList.add('slide-up')
+                    parent.classList.remove('slide-up')
+                }
+            });
         });
-    });
-</script>
+
+        signupBtn.addEventListener('click', (e) => {
+            let parent = e.target.parentNode;
+            Array.from(e.target.parentNode.classList).find((element) => {
+                if (element !== "slide-up") {
+                    parent.classList.add('slide-up')
+                } else {
+                    loginBtn.parentNode.parentNode.classList.add('slide-up')
+                    parent.classList.remove('slide-up')
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

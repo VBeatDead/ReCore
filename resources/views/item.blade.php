@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game News</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
     <link rel="stylesheet" href="{{ asset('css/sideoff.css') }}">
@@ -139,50 +140,117 @@
     <div class="add">
         <form action="{{ route('item.store') }}" method="post" enctype="multipart/form-data">
             @csrf
+            <!-- Existing fields -->
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title')}}">
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
+                    name="title" value="{{ old('title') }}">
                 @error('title')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <!-- Category Dropdown -->
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control @error('category') is-invalid @enderror" id="category" name="category">
+                    <option value="">Select Category</option>
+                    @foreach (App\Models\Personal::getCategories() as $key => $value)
+                        <option value="{{ $key }}" {{ old('category') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Tags Input -->
+            <div class="mb-3">
+                <label for="tags" class="form-label">Tags</label>
+                <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags"
+                    name="tags" value="{{ old('tags') }}" placeholder="Enter tags separated by commas">
+                @error('tags')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                <small class="text-muted">Separate tags with commas (e.g., action, rpg, multiplayer)</small>
+            </div>
+
+            <!-- Reading Level -->
+            <div class="mb-3">
+                <label for="reading_level" class="form-label">Reading Level</label>
+                <select class="form-control @error('reading_level') is-invalid @enderror" id="reading_level"
+                    name="reading_level">
+                    <option value="">Select Reading Level</option>
+                    @foreach (App\Models\Personal::getReadingLevels() as $key => $value)
+                        <option value="{{ $key }}" {{ old('reading_level') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('reading_level')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Existing fields -->
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+                    rows="3">{{ old('description') }}</textarea>
                 @error('description')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
             <div class="mb-3">
                 <label for="photoUrl" class="form-label">Photo</label>
-                <input type="file" class="form-control @error('photoUrl') is-invalid @enderror" id="photoUrl" name="photoUrl" accept="image/*">
-                
+                <input type="file" class="form-control @error('photoUrl') is-invalid @enderror" id="photoUrl"
+                    name="photoUrl" accept="image/*">
                 @error('photoUrl')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
-            
                 <div class="text-muted">Max file size: 2MB</div>
             </div>
-            
-            <script>
-                document.getElementById('photoUrl').addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    const maxSize = 2 * 1024 * 1024;
-            
-                    if (file && file.size > maxSize) {
-                        alert("File is too large. Max size is 2 MB.");
-                        event.target.value = '';
-                    }
-                });
-            </script>            
+
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- Add this to your layout or view for tags input -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.8/tagify.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.17.8/tagify.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
-    <script src="https://cdn.tiny.cloud/1/{{ env('TINYMCE_API_KEY') }}/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/{{ env('TINYMCE_API_KEY') }}/tinymce/5/tinymce.min.js" referrerpolicy="origin">
+        < script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity = "sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin = "anonymous" >
+            <
+            /> <
+            script >
+            // Initialize Tagify
+            var input = document.querySelector('input[name=tags]');
+        new Tagify(input, {
+            delimiter: ',',
+            pattern: /^.{0,20}$/ // Limit each tag to 20 characters
+        });
+
+        // File size validation
+        document.getElementById('photoUrl').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const maxSize = 2 * 1024 * 1024;
+
+            if (file && file.size > maxSize) {
+                alert("File is too large. Max size is 2 MB.");
+                event.target.value = '';
+            }
+        });
+    </script>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -191,14 +259,12 @@
             height: 300,
         });
     </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
-        @if(session('success'))
+        @if (session('success'))
             toastr.success("{{ session('success') }}");
         @endif
-    
-        @if(session('error'))
+
+        @if (session('error'))
             toastr.error("{{ session('error') }}");
         @endif
     </script>

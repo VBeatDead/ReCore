@@ -16,7 +16,38 @@ class personal extends Model
         'title',
         'description',
         'name',
+        'category',
+        'tags',
+        'reading_level'
     ];
+
+    protected $casts = [
+        'tags' => 'array'  // Cast tags sebagai array
+    ];
+
+    // Helper method untuk mendapatkan daftar kategori
+    public static function getCategories()
+    {
+        return [
+            'PC Games' => 'PC Games',
+            'Mobile Games' => 'Mobile Games',
+            'Console Games' => 'Console Games',
+            'Game Reviews' => 'Game Reviews',
+            'Gaming Tips' => 'Gaming Tips',
+            'eSports' => 'eSports',
+            'Game Updates' => 'Game Updates'
+        ];
+    }
+
+    // Helper method untuk mendapatkan daftar level pembaca
+    public static function getReadingLevels()
+    {
+        return [
+            'beginner' => 'Pemula',
+            'intermediate' => 'Menengah',
+            'expert' => 'Ahli'
+        ];
+    }
 
     public function comments()
     {

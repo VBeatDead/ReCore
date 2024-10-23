@@ -45,3 +45,4 @@ Route::get('/comments/{itemId}', [CommentController::class, 'showComments'])->na
 Route::get('/not-found', [NfController::class, 'notAllowed'])->name('nf');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store')->middleware('auth');
 Route::get('/ratings/{item}', [RatingController::class, 'index'])->name('rating.index');
+Route::get('/search', [NewsController::class, 'search'])->name('item.search');
