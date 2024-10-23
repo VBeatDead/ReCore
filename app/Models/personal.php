@@ -22,4 +22,9 @@ class personal extends Model
     {
         return $this->hasMany(Comment::class, 'item_id');
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'item_id');
+    }
 }

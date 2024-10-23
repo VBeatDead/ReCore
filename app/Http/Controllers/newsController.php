@@ -10,9 +10,15 @@ class newsController extends Controller
 {
     public function show()
     {
-        $data = personal::latest()->paginate(7);
-        $page = personal::all();
+        $data = Personal::with(['comments', 'ratings'])->latest()->paginate(7);
+        $page = Personal::all();
         return view('welcome', compact('data', 'page'));
+    }
+
+    public function detail($id)
+    {
+        $item = Personal::with(['comments', 'ratings'])->findOrFail($id);
+        return view('detail', compact('item'));
     }
 
     public function addNews()

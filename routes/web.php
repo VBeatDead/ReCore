@@ -10,6 +10,7 @@ use App\Http\Controllers\detailController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NfController;
 use App\Http\Controllers\SesiController;
+use App\Http\Controllers\RatingController;
 
 Route::middleware(['auth'])->group(function () {
     route::get('/', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
@@ -42,3 +43,5 @@ Route::get('/{id}/{title}', [detailController::class, 'show'])->name('item.detai
 Route::get('/random-item', [detailController::class, 'showRandomItem'])->name('random.item');
 Route::get('/comments/{itemId}', [CommentController::class, 'showComments'])->name('comments.show');
 Route::get('/not-found', [NfController::class, 'notAllowed'])->name('nf');
+Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store')->middleware('auth');
+Route::get('/ratings/{item}', [RatingController::class, 'index'])->name('rating.index');

@@ -11,6 +11,47 @@
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
+    <style>
+        .star-rating {
+            direction: rtl;
+            display: inline-block;
+            padding: 20px;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #bbb;
+            font-size: 30px;
+            padding: 0;
+            cursor: pointer;
+            -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label,
+        .star-rating input:checked~label {
+            color: #f2b600;
+        }
+
+        .badge.bg-gold {
+            background-color: #FFD700;
+            color: #000;
+        }
+
+        .badge.bg-silver {
+            background-color: #C0C0C0;
+            color: #000;
+        }
+
+        .badge.bg-bronze {
+            background-color: #CD7F32;
+            color: #fff;
+        }
+    </style>
     @include('partials._navbar')
 </head>
 
@@ -95,6 +136,146 @@
         @else
             <p>Please <a href="{{ route('login') }}">login</a> to leave a comment.</p>
         @endauth
+    </div>
+    <div class="listitem2 rating-section" style="padding-top: 2%; padding-bottom: 3%;">
+        <h2>Rating & Review</h2>
+
+        <!-- Display Average Rating -->
+        @if ($item && $item->ratings->count() > 0)
+            <div class="average-rating mb-4">
+                <h4>Rating Rata-rata: {{ number_format($item->ratings->avg('rating'), 1) }}/5</h4>
+                <div class="rating-stats">
+                    <div class="progress-container">
+                        @for ($i = 5; $i >= 1; $i--)
+                            <div class="rating-bar d-flex align-items-center mb-1">
+                                <span class="me-2">{{ $i }} ★</span>
+                                <div class="progress flex-grow-1" style="height: 20px;">
+                                    @php
+                                        $percentage =
+                                            $item->ratings->count() > 0
+                                                ? ($item->ratings->where('rating', $i)->count() /
+                                                        $item->ratings->count()) *
+                                                    100
+                                                : 0;
+                                    @endphp
+                                    <div class="progress-bar bg-warning" role="progressbar"
+                                        style="width: {{ $percentage }}%" aria-valuenow="{{ $percentage }}"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                        {{ number_format($percentage, 1) }}%
+                                    </div>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Rating Form -->
+        @auth
+            @if (!$item->ratings->where('user_id', auth()->id())->first())
+                <form action="{{ route('rating.store') }}" method="POST" class="rating-form bg-light p-4 rounded">
+                    @csrf
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+
+                    <div class="mb-3">
+                        <label class="form-label">Rating Anda</label>
+                        <div class="star-rating">
+                            @for ($i = 5; $i >= 1; $i--)
+                                <input type="radio" id="star{{ $i }}" name="rating"
+                                    value="{{ $i }}" required>
+                                <label for="star{{ $i }}">★</label>
+                            @endfor
+                        </div>
+                        @error('rating')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="review" class="form-label">Review Anda</label>
+                        <textarea name="review" id="review" class="form-control @error('review') is-invalid @enderror" rows="3"
+                            required>{{ old('review') }}</textarea>
+                        @error('review')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <select name="category" id="category" class="form-select @error('category') is-invalid @enderror"
+                            required>
+                            <option value="">Pilih kategori</option>
+                            <option value="UI/UX">UI/UX</option>
+                            <option value="Konten">Konten</option>
+                            <option value="Teknis">Teknis</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        @error('category')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags (pisahkan dengan koma)</label>
+                        <input type="text" name="tags" id="tags"
+                            class="form-control @error('tags') is-invalid @enderror"
+                            placeholder="contoh: #bagus, #informatif, #detail">
+                        @error('tags')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Kirim Rating & Review</button>
+                </form>
+            @else
+                <div class="alert alert-info">Anda sudah memberikan rating untuk berita ini.</div>
+            @endif
+        @else
+            <p>Silakan <a href="{{ route('login') }}">login</a> untuk memberikan rating dan review.</p>
+        @endauth
+
+        <!-- Display Reviews -->
+        <div class="reviews-section mt-4">
+            <h3>Review Terbaru</h3>
+            @if ($item && $item->ratings->count() > 0)
+                @foreach ($item->ratings->sortByDesc('created_at') as $rating)
+                    <div class="review-card mb-3 p-3 border rounded">
+                        <div class="review-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ $rating->user->name }}</strong>
+                                <span class="stars ms-2">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $rating->rating)
+                                            <span class="text-warning">★</span>
+                                        @else
+                                            <span class="text-secondary">★</span>
+                                        @endif
+                                    @endfor
+                                </span>
+                                <span class="badge bg-{{ $rating->badge }} ms-2">{{ $rating->status }}</span>
+                            </div>
+                            <small class="text-muted">{{ $rating->created_at->diffForHumans() }}</small>
+                        </div>
+                        <div class="review-content mt-2">
+                            <p class="mb-1">{{ $rating->review }}</p>
+                            <div class="review-meta">
+                                <small class="text-muted">Kategori: {{ $rating->category }}</small>
+                                @if ($rating->tags)
+                                    <div class="tags mt-1">
+                                        @foreach (explode(',', $rating->tags) as $tag)
+                                            <span class="badge bg-secondary">{{ trim($tag) }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <p>Belum ada review. Jadilah yang pertama memberikan review!</p>
+            @endif
+        </div>
     </div>
     </div>
     @include('partials._footer')

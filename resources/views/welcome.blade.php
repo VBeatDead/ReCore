@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Temukan berita terkini, ulasan game, panduan, dan informasi lengkap seputar dunia permainan video di situs kami. Dapatkan update terbaru mengenai game populer, teknologi gaming, dan acara esports. Jelajahi artikel-artikel menarik tentang gameplay, strategi, dan tren terkini dalam industri game. Sambut dunia game dengan pengetahuan yang mendalam hanya di situs info game kami.">
+    <meta name="description"
+        content="Temukan berita terkini, ulasan game, panduan, dan informasi lengkap seputar dunia permainan video di situs kami. Dapatkan update terbaru mengenai game populer, teknologi gaming, dan acara esports. Jelajahi artikel-artikel menarik tentang gameplay, strategi, dan tren terkini dalam industri game. Sambut dunia game dengan pengetahuan yang mendalam hanya di situs info game kami.">
     <meta name="google-site-verification" content="idVH59Q3pfURpY0-Z__TljzYiSB7wjtBso9C__Uar7g" />
     <title>Inpo Game - Temukan Info Game Terbaru</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
 
@@ -557,74 +559,84 @@
 <body>
     <div id="carouselExampleCaptions" class="carousel slide">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
         </div>
         <div id="autoSlideCarousel" class="sizeslide carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                @foreach($data->shuffle()->take(3) as $index => $item)
-                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                    <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid" alt="img">
-                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                        <div class="desc carousel-caption d-none d-md-block">
-                            <h5>{{ $item->title }}</h5>
-                            @php
-                            $limitedDescription = strip_tags(htmlspecialchars_decode($item->description));
-                            $descriptionWords = explode(' ', $limitedDescription);
-                            $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
-                            if (count($descriptionWords) > 10) {
-                            $limitedDescription .= ' .....';
-                            }
-                            @endphp
-                            <p>{{ $limitedDescription }}</p>
-                        </div>
-                    </a>
-                </div>
+                @foreach ($data->shuffle()->take(3) as $index => $item)
+                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                        <img width="95%" src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid"
+                            alt="img">
+                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                            <div class="desc carousel-caption d-none d-md-block">
+                                <h5>{{ $item->title }}</h5>
+                                @php
+                                    $limitedDescription = strip_tags(htmlspecialchars_decode($item->description));
+                                    $descriptionWords = explode(' ', $limitedDescription);
+                                    $limitedDescription = implode(' ', array_slice($descriptionWords, 0, 10));
+                                    if (count($descriptionWords) > 10) {
+                                        $limitedDescription .= ' .....';
+                                    }
+                                @endphp
+                                <p>{{ $limitedDescription }}</p>
+                            </div>
+                        </a>
+                    </div>
                 @endforeach
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#autoSlideCarousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#autoSlideCarousel"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#autoSlideCarousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#autoSlideCarousel"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
     </div>
     <div class="sidelist d-flex w-100">
         <div class="listitem col-md-9 col-xs-12">
-            @foreach($data as $index => $item)
-            @if($index < 7) <div class="row g-0 img-zoomin" style="margin-bottom: 30px;">
-                <div class="col-md-4">
-                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                        <img src="data:image/jpg;base64,{{ $item->photoUrl }}" class="img-fluid rounded fixed-size-img" style="padding-right: 3%;" alt="img">
-                    </a>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                            <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
-                            <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
-                            <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 255) }}
-                            </p>
-                        </a>
+            @foreach ($data as $index => $item)
+                @if ($index < 7)
+                    <div class="row g-0 img-zoomin" style="margin-bottom: 30px;">
+                        <div class="col-md-4">
+                            <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                <img src="data:image/jpg;base64,{{ $item->photoUrl }}"
+                                    class="img-fluid rounded fixed-size-img" style="padding-right: 3%;" alt="img">
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                                    <h5 class="card-title" style="color: #EBF9FF;">{{ $item->title }}</h5>
+                                    <p class="card-text" style="color: #EBF9FF;"><small>{{ $item->name }}</small></p>
+                                    <p class="card-text" style="padding-bottom: 10px; color: #EBF9FF;">
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 255) }}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-        </div>
-        @else
-        @break
-        @endif
+                @else
+                @break
+            @endif
         @endforeach
         <div class="card-footer">
             {{ $data->links('pagination::bootstrap-4') }}
@@ -634,72 +646,74 @@
         <h4 style="margin-left: 20px;">Popular</h4>
         <div class="itempopular">
             <ul class="list-item">
-                @foreach($page->take(15) as $item)
-                <li class="list-group-item">
-                    <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
-                        {{ $item->title }}
-                        <img src="data:image/jpg;base64,{{ $item->photoUrl }}" alt="Item Image">
-                    </a>
-                </li>
+                @foreach ($page->take(15) as $item)
+                    <li class="list-group-item">
+                        <a href="{{ route('item.detail', ['id' => $item->id, 'title' => $item->title]) }}">
+                            {{ $item->title }}
+                            <img src="data:image/jpg;base64,{{ $item->photoUrl }}" alt="Item Image">
+                        </a>
+                    </li>
                 @endforeach
             </ul>
         </div>
-        <!-- @if(Auth::check() && Auth::user()->role == 'user')
-        <div class="add">
-            <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
-        </div>
-        @endif -->
+        <!-- @if (Auth::check() && Auth::user()->role == 'user')
+<div class="add">
+        <a href="{{ route('item.create') }}" class="btn btn-primary rounded ml-5">Add News</a>
     </div>
+@endif -->
     </div>
-    @include('partials._footer')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
-    <script>
-        $('#autoSlideCarousel').carousel({
-            interval: 1000
+</div>
+@include('partials._footer')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="..." crossorigin="anonymous"></script>
+<script>
+    $('#autoSlideCarousel').carousel({
+        interval: 1000
+    });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H9NTB97Z3X"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-H9NTB97Z3X');
+</script>
+<script>
+    console.clear();
+
+    const loginBtn = document.getElementById('login');
+    const signupBtn = document.getElementById('signup');
+
+    loginBtn.addEventListener('click', (e) => {
+        let parent = e.target.parentNode.parentNode;
+        Array.from(e.target.parentNode.parentNode.classList).find((element) => {
+            if (element !== "slide-up") {
+                parent.classList.add('slide-up')
+            } else {
+                signupBtn.parentNode.classList.add('slide-up')
+                parent.classList.remove('slide-up')
+            }
         });
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9NTB97Z3X"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    });
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-H9NTB97Z3X');
-    </script>
-    <script>
-        console.clear();
-
-        const loginBtn = document.getElementById('login');
-        const signupBtn = document.getElementById('signup');
-
-        loginBtn.addEventListener('click', (e) => {
-            let parent = e.target.parentNode.parentNode;
-            Array.from(e.target.parentNode.parentNode.classList).find((element) => {
-                if (element !== "slide-up") {
-                    parent.classList.add('slide-up')
-                } else {
-                    signupBtn.parentNode.classList.add('slide-up')
-                    parent.classList.remove('slide-up')
-                }
-            });
+    signupBtn.addEventListener('click', (e) => {
+        let parent = e.target.parentNode;
+        Array.from(e.target.parentNode.classList).find((element) => {
+            if (element !== "slide-up") {
+                parent.classList.add('slide-up')
+            } else {
+                loginBtn.parentNode.parentNode.classList.add('slide-up')
+                parent.classList.remove('slide-up')
+            }
         });
-
-        signupBtn.addEventListener('click', (e) => {
-            let parent = e.target.parentNode;
-            Array.from(e.target.parentNode.classList).find((element) => {
-                if (element !== "slide-up") {
-                    parent.classList.add('slide-up')
-                } else {
-                    loginBtn.parentNode.parentNode.classList.add('slide-up')
-                    parent.classList.remove('slide-up')
-                }
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 
 </html>
