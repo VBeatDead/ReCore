@@ -3,14 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game News</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Your+Font+Name&display=swap">
     <link rel="icon" type="image/png" href="{{ asset('img/log.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .star-rating {
             direction: rtl;
@@ -51,6 +55,52 @@
             background-color: #CD7F32;
             color: #fff;
         }
+
+        /* Add these styles to your CSS file */
+        .share-buttons .btn {
+            margin-right: 0.5rem;
+        }
+
+        .bookmark-btn {
+            transition: all 0.3s ease;
+        }
+
+        .bookmark-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .bookmark-btn i {
+            margin-right: 0.5rem;
+        }
+
+        .notes-section {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+        }
+
+        .modal-dialog {
+            max-width: 500px;
+        }
+
+        #bookmarkNotes {
+            min-height: 100px;
+        }
+
+        .share-buttons button,
+        .bookmark-section button {
+            transition: all 0.3s ease;
+        }
+
+        .share-buttons button:hover,
+        .bookmark-section button:hover {
+            transform: scale(1.05);
+        }
+
+        .bookmark-btn:hover {
+            background-color: #2693C9;
+            color: #fff;
+        }
     </style>
     @include('partials._navbar')
 </head>
@@ -59,13 +109,32 @@
     <div class="d-flex flex-column flex-md-row w-100">
         <div class="content col-md-9 col-xs-12">
             <div class="detailnews">
-                <div class="listitem2" , style="padding-top: 2%;">
-                    @if ($item)
-                        <h1>{{ $item->title }}</h1>
-                    @else
-                        <p>No item found.</p>
-                    @endif
+                <div class="listitem2"
+                    style="padding-top: 2%; display: flex; justify-content: space-between; align-items: center;">
+                    <h1 style="margin: 0;">{{ $item ? $item->title : 'No item found.' }}</h1>
+                    <div class="bookmark-section">
+                        @auth
+                            <form action="{{ route('bookmark.toggle', $item->id) }}" method="POST"
+                                class="d-flex align-items-center">
+                                @csrf
+                                <button class="btn bookmark-btn" type="submit"
+                                    style="display: flex; align-items: center; background-color: transparent; border: 2px solid #2693C9; border-radius: 25px; padding: 10px 15px; transition: background-color 0.3s, color 0.3s;">
+                                    <i class="fa{{ $item->isBookmarkedBy(auth()->user()) ? 's' : 'r' }} fa-bookmark"
+                                        style="margin-right: 5px; color: #2693C9;"></i>
+                                    <span
+                                        style="color: #2693C9;">{{ $item->isBookmarkedBy(auth()->user()) ? 'Bookmarked' : 'Bookmark' }}</span>
+                                </button>
+                            </form>
+                        @else
+                            <a href="#" class="btn btn-outline-primary"
+                                style="border-radius: 25px; padding: 10px 15px;" data-bs-toggle="modal"
+                                data-bs-target="#loginModal">
+                                <i class="fas fa-user" style="margin-right: 5px;"></i> Login to Save
+                            </a>
+                        @endauth
+                    </div>
                 </div>
+
                 <div class="listitem2">
                     @if ($item)
                         <p>{{ $item->name }}</p>
@@ -84,7 +153,7 @@
                         <p>No item found.</p>
                     @endif
                 </div>
-                <div class="listitem2" , style="padding-bottom: 2%; text-align: justify;">
+                <div class="listitem2" style="padding-bottom: 2%; text-align: justify;">
                     @if ($item)
                         <p style="padding-top: 3%;">{!! htmlspecialchars_decode($item->description) !!}</p>
                     @else
@@ -95,6 +164,7 @@
         </div>
         @include('partials._side')
     </div>
+
     <div class="listitem2" style="padding-top: 2%; padding-bottom: 3%;">
         <h2>Comments</h2>
         @if ($item && $item->comments)
@@ -203,8 +273,8 @@
 
                     <div class="mb-3">
                         <label for="category" class="form-label">Kategori</label>
-                        <select name="category" id="category" class="form-select @error('category') is-invalid @enderror"
-                            required>
+                        <select name="category" id="category"
+                            class="form-select @error('category') is-invalid @enderror" required>
                             <option value="">Pilih kategori</option>
                             <option value="UI/UX">UI/UX</option>
                             <option value="Konten">Konten</option>
@@ -323,6 +393,78 @@
                 }
             });
         });
+
+        function toggleBookmark(button) {
+            const itemId = button.dataset.itemId;
+            const isBookmarked = button.dataset.bookmarked === 'true';
+            const csrfToken = button.dataset.csrf;
+            const notes = document.getElementById('bookmarkNotes')?.value || '';
+
+            if (!csrfToken) {
+                console.error('CSRF token not found');
+                alert('Security token not found. Please refresh the page.');
+                return;
+            }
+
+            fetch(`/bookmark/${itemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notes
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+
+                    // Update button state
+                    button.dataset.bookmarked = !isBookmarked;
+                    const icon = button.querySelector('i');
+                    const text = button.querySelector('span');
+
+                    if (data.status === 'added') {
+                        icon.className = 'fas fa-bookmark';
+                        text.textContent = 'Bookmarked';
+                    } else {
+                        icon.className = 'far fa-bookmark';
+                        text.textContent = 'Bookmark';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to toggle bookmark. Please try again.');
+                });
+        }
+
+        function saveBookmarkNotes() {
+            const itemId = document.querySelector('.bookmark-btn').dataset.itemId;
+            const notes = document.getElementById('bookmarkNotes').value;
+
+            fetch(`/bookmark/${itemId}/notes`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        notes
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('bookmarkNotesModal'));
+                    modal.hide();
+                });
+        }
     </script>
 </body>
 

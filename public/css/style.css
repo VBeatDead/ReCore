@@ -345,7 +345,7 @@ a {
         background-repeat: no-repeat;
         background-position: left bottom;
         background-size: 500px;
-        background-image: url("{{ asset('img/ga.png') }}");
+        background-image: url("http://127.0.0.1:8000/img/ga.png");
     }
 
     .signup {

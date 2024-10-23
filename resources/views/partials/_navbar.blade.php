@@ -118,13 +118,20 @@
                 <div class="title d-flex justify-content-end col-md-4 col-xs-12">
                     @if ((Auth::check() && Auth::user()->role == 'admin') || Auth::user()->role == 'in')
                         <a href="{{ route('setting') }}">
-                            <img class="rectangle" src="{{ asset('img/settings.png') }}" width="30px"
+                            <img class="rectangle walls" src="{{ asset('img/settings.png') }}" width="30px"
                                 style="margin-right: 40px;" />
                         </a>
                     @endif
+                    @auth
+                        <a class="nav-link" href="{{ route('bookmark.index') }}">
+                            <!-- Bookmark Icon Same Size as Other Icons -->
+                            <img class="rectangle" src="{{ asset('img/bookmark.png') }}" width="30px"
+                                style="margin-right: 40px;" />
+                        </a>
+                    @endauth
                     <a href="{{ route('logout') }}">
-                        <img class="rectangle" src="{{ asset('img/logout.png') }}" width="30px" data-bs-toggle="modal"
-                            data-bs-target="#loginModal" style="margin-right: 5px;" />
+                        <img class="rectangle walls" src="{{ asset('img/logout.png') }}" width="30px"
+                            data-bs-toggle="modal" data-bs-target="#loginModal" style="margin-right: 5px;" />
                     </a>
                 </div>
             @else

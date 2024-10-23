@@ -11,6 +11,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NfController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\BookmarkController;
 
 Route::middleware(['auth'])->group(function () {
     route::get('/', [AdminController::class, 'index'])->name('admin')->middleware('userAkses:admin');
@@ -33,6 +34,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/bookmark/{item}', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
+    Route::patch('/bookmark/{item}/notes', [BookmarkController::class, 'updateNotes'])->name('bookmark.notes');
+    Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
+});
+
+Route::get('/news/{id}/{title}', [DetailController::class, 'show'])->name('detail.show');
 route::get('/', [newsController::class, 'show'])->name('item.home');
 Route::get('/sidebar', [newsController::class, 'show'])->name('sidebar.show');
 route::get('/disclamer', [AboutController::class, 'show'])->name('item.about');

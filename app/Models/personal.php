@@ -58,4 +58,24 @@ class personal extends Model
     {
         return $this->hasMany(Rating::class, 'item_id');
     }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class, 'item_id');
+    }
+
+    // Helper method to check if user has bookmarked
+    public function isBookmarkedBy($user)
+    {
+        if (!$user) return false;
+        return $this->bookmarks()->where('user_id', $user->id)->exists();
+    }
+
+    // Helper method to get bookmark notes
+    public function getBookmarkNotes($user)
+    {
+        if (!$user) return null;
+        $bookmark = $this->bookmarks()->where('user_id', $user->id)->first();
+        return $bookmark ? $bookmark->notes : null;
+    }
 }
