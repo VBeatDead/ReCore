@@ -12,10 +12,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained('newsgame')->onDelete('cascade');
-            $table->text('notes')->nullable(); // Untuk menyimpan catatan bookmark
+            $table->text('notes')->nullable();
             $table->timestamps();
 
-            // Mencegah duplikasi bookmark
             $table->unique(['user_id', 'item_id']);
         });
     }

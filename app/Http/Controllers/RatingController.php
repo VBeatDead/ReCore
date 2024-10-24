@@ -15,7 +15,7 @@ class RatingController extends Controller
         $validated = $request->validate([
             'item_id' => 'required|exists:newsgame,id',
             'rating' => 'required|integer|between:1,5',
-            'review' => 'required|string|min:10|max:200',
+            'review' => 'required|string|min:10|max:500',
             'category' => 'required|string|in:UI/UX,Konten,Teknis,Lainnya',
             'tags' => 'nullable|string|max:100'
         ], [

@@ -38,7 +38,16 @@ class newsController extends Controller
             'description' => 'required|min:5|max:5000',
             'photoUrl' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category' => 'required|string',
-            'tags' => 'required|string',
+            'tags' => [
+                'required',
+                'string',
+                function ($attribute, $value, $fail) {
+                    $tagsArray = explode(',', $value);
+                    if (count($tagsArray) > 5) {
+                        $fail('The ' . $attribute . ' may not have more than 5 tags.');
+                    }
+                },
+            ],
             'reading_level' => 'required|in:beginner,intermediate,expert',
         ]);
 

@@ -79,7 +79,7 @@
     </style>
 </head>
 
-<body class="bg-light">
+<body>
     <!-- Navbar -->
     @include('partials._navbar')
 
@@ -114,10 +114,10 @@
                                 @endif
 
                                 <div class="mt-3 d-flex gap-2">
-                                    {{-- <button class="btn btn-sm btn-outline-primary"
+                                    <button class="btn btn-sm btn-outline-primary"
                                         onclick="editNotes({{ $bookmark->item->id }})">
                                         <i class="fas fa-edit"></i> Edit Notes
-                                    </button> --}}
+                                    </button>
                                     <button class="btn btn-sm btn-outline-danger"
                                         onclick="removeBookmark({{ $bookmark->item->id }})">
                                         <i class="fas fa-trash-alt"></i> Remove
@@ -141,7 +141,7 @@
         @endif
     </div>
 
-    {{-- <!-- Notes Modal -->
+    <!-- Notes Modal -->
     <div class="modal fade" id="editNotesModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -162,7 +162,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
