@@ -38,7 +38,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bookmark/{item}', [BookmarkController::class, 'toggle'])->name('bookmark.toggle');
     Route::patch('/bookmark/{item}/notes', [BookmarkController::class, 'updateNotes'])->name('bookmark.notes');
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmark.index');
+    Route::get('/bookmark/{item}/notes', [BookmarkController::class, 'getNotes'])->name('bookmark.getNotes');
 });
+
 
 Route::get('/news/{id}/{title}', [DetailController::class, 'show'])->name('detail.show');
 route::get('/', [newsController::class, 'show'])->name('item.home');

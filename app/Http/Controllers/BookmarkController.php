@@ -21,19 +21,34 @@ class BookmarkController extends Controller
 
         if ($bookmark) {
             $bookmark->delete();
-
-            // Flash a success message for removal
-            return redirect()->back()->with('success', 'Bookmark removed successfully');
+            return response()->json([
+                'status' => 'removed',
+                'message' => 'Bookmark removed successfully'
+            ]);
         }
 
-        Bookmark::create([
+        $bookmark = Bookmark::create([
             'user_id' => auth()->id(),
             'item_id' => $item->id,
-            'notes' => $request->notes
+            'notes' => $request->input('notes')
         ]);
 
-        // Flash a success message for adding
-        return redirect()->back()->with('success', 'Bookmark added successfully');
+        return response()->json([
+            'status' => 'added',
+            'message' => 'Bookmark added successfully',
+            'bookmark' => $bookmark
+        ]);
+    }
+
+    public function getNotes(Personal $item)
+    {
+        $bookmark = Bookmark::where('user_id', auth()->id())
+            ->where('item_id', $item->id)
+            ->firstOrFail();
+
+        return response()->json([
+            'notes' => $bookmark->notes
+        ]);
     }
 
     public function updateNotes(Request $request, Personal $item)
@@ -42,9 +57,9 @@ class BookmarkController extends Controller
             ->where('item_id', $item->id)
             ->firstOrFail();
 
-        $bookmark->update(['notes' => $request->notes]);
+        $bookmark->update(['notes' => $request->input('notes')]);
 
-        return redirect()->back()->with('success', 'Notes updated successfully');
+        return response()->json(['message' => 'Notes updated successfully']);
     }
 
     public function index()

@@ -101,6 +101,42 @@
             background-color: #2693C9;
             color: #fff;
         }
+
+        .bookmark-panel {
+            animation: slideDown 0.2s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bookmark-btn:hover {
+            background-color: rgba(38, 147, 201, 0.1) !important;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #2693C9;
+        }
+
+        /* Add overlay when panel is open */
+        .bookmark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
     </style>
     @include('partials._navbar')
 </head>
@@ -114,22 +150,53 @@
                     <h1 style="margin: 0;">{{ $item ? $item->title : 'No item found.' }}</h1>
                     <div class="bookmark-section">
                         @auth
-                            <form action="{{ route('bookmark.toggle', $item->id) }}" method="POST"
-                                class="d-flex align-items-center">
-                                @csrf
-                                <button class="btn bookmark-btn" type="submit"
-                                    style="display: flex; align-items: center; background-color: transparent; border: 2px solid #2693C9; border-radius: 25px; padding: 10px 15px; transition: background-color 0.3s, color 0.3s;">
+                            <div class="bookmark-wrapper position-relative">
+                                <!-- Bookmark Button -->
+                                <button type="button" class="btn bookmark-btn d-flex align-items-center gap-2"
+                                    onclick="toggleBookmarkPanel(this)" data-item-id="{{ $item->id }}"
+                                    data-bookmarked="{{ $item->isBookmarkedBy(auth()->user()) }}"
+                                    data-csrf="{{ csrf_token() }}"
+                                    style="background-color: transparent; border: 2px solid #2693C9; border-radius: 25px; padding: 10px 15px; transition: all 0.3s ease;">
                                     <i class="fa{{ $item->isBookmarkedBy(auth()->user()) ? 's' : 'r' }} fa-bookmark"
-                                        style="margin-right: 5px; color: #2693C9;"></i>
-                                    <span
-                                        style="color: #2693C9;">{{ $item->isBookmarkedBy(auth()->user()) ? 'Bookmarked' : 'Bookmark' }}</span>
+                                        style="color: #2693C9;"></i>
+                                    <span style="color: #2693C9;">
+                                        {{ $item->isBookmarkedBy(auth()->user()) ? 'Bookmarked' : 'Bookmark' }}
+                                    </span>
                                 </button>
-                            </form>
+
+                                <!-- Bookmark Panel -->
+                                <div id="bookmarkPanel-{{ $item->id }}" class="bookmark-panel"
+                                    style="display: none; position: absolute; top: 100%; right: 0; margin-top: 10px; width: 300px; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000;">
+                                    <div class="p-3">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h6 class="m-0 fw-bold">Add to Bookmarks</h6>
+                                            <button type="button" class="btn-close"
+                                                onclick="closeBookmarkPanel({{ $item->id }})">
+                                            </button>
+                                        </div>
+                                        <div class="mb-3">
+                                            <textarea id="bookmarkNotes-{{ $item->id }}" class="form-control border-0 bg-light" rows="3"
+                                                placeholder="Add note (optional)" style="resize: none; border-radius: 8px;"></textarea>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-light flex-grow-1"
+                                                onclick="closeBookmarkPanel({{ $item->id }})"
+                                                style="border-radius: 20px;">
+                                                Cancel
+                                            </button>
+                                            <button type="button" class="btn btn-primary flex-grow-1"
+                                                onclick="saveBookmark({{ $item->id }})" style="border-radius: 20px;">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @else
                             <a href="#" class="btn btn-outline-primary"
                                 style="border-radius: 25px; padding: 10px 15px;" data-bs-toggle="modal"
                                 data-bs-target="#loginModal">
-                                <i class="fas fa-user" style="margin-right: 5px;"></i> Login to Save
+                                <i class="fas fa-user me-2"></i> Login to Save
                             </a>
                         @endauth
                     </div>
@@ -393,6 +460,164 @@
                 }
             });
         });
+
+        function toggleBookmarkPanel(button) {
+            const itemId = button.dataset.itemId;
+            const isBookmarked = button.dataset.bookmarked === 'true';
+
+            if (isBookmarked) {
+                // If already bookmarked, remove it
+                removeBookmark(button);
+            } else {
+                // Show bookmark panel
+                const panel = document.getElementById(`bookmarkPanel-${itemId}`);
+                panel.style.display = 'block';
+
+                // Add overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'bookmark-overlay';
+                overlay.onclick = () => closeBookmarkPanel(itemId);
+                document.body.appendChild(overlay);
+
+                // Focus textarea
+                document.getElementById(`bookmarkNotes-${itemId}`).focus();
+            }
+        }
+
+        function closeBookmarkPanel(itemId) {
+            const panel = document.getElementById(`bookmarkPanel-${itemId}`);
+            panel.style.display = 'none';
+
+            // Remove overlay
+            const overlay = document.querySelector('.bookmark-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+
+            // Clear textarea
+            document.getElementById(`bookmarkNotes-${itemId}`).value = '';
+        }
+
+        function saveBookmark(itemId) {
+            const button = document.querySelector(`[data-item-id="${itemId}"]`);
+            const notes = document.getElementById(`bookmarkNotes-${itemId}`).value;
+            const csrfToken = button.dataset.csrf;
+
+            fetch(`/bookmark/${itemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        notes
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update button state
+                    button.dataset.bookmarked = 'true';
+                    const icon = button.querySelector('i');
+                    const text = button.querySelector('span');
+
+                    icon.className = 'fas fa-bookmark';
+                    text.textContent = 'Bookmarked';
+
+                    // Close panel
+                    closeBookmarkPanel(itemId);
+
+                    // Show success toast
+                    showToast('Bookmark saved successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Failed to save bookmark. Please try again.', 'error');
+                });
+        }
+
+        function removeBookmark(button) {
+            const itemId = button.dataset.itemId;
+            const csrfToken = button.dataset.csrf;
+
+            fetch(`/bookmark/${itemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update button state
+                    button.dataset.bookmarked = 'false';
+                    const icon = button.querySelector('i');
+                    const text = button.querySelector('span');
+
+                    icon.className = 'far fa-bookmark';
+                    text.textContent = 'Bookmark';
+
+                    showToast('Bookmark removed successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Failed to remove bookmark. Please try again.', 'error');
+                });
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 24px;
+        background: ${type === 'success' ? '#4CAF50' : '#F44336'};
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    `;
+
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Add CSS for toast animations
+        const style = document.createElement('style');
+        style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+        document.head.appendChild(style);
 
         function toggleBookmark(button) {
             const itemId = button.dataset.itemId;
